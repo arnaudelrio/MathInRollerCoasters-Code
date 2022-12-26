@@ -1,0 +1,1727 @@
+% !TeX spellcheck = en_US
+% !TeX TXS-program:compile = txs:///pdflatex/[--shell-escape]
+\documentclass[12pt,twoside,a4paper]{article}
+\usepackage{amsmath}
+\usepackage[headheight=10mm]{geometry}
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=newest}
+\usepgfplotslibrary{external}
+\usetikzlibrary{external,calc,patterns,angles,quotes}
+\tikzexternalize
+\tikzset{external/mode=graphics if exists}
+\usepackage{pdfpages}
+\usepackage{pstricks-add, multido}
+\usepackage{pst-func, pst-plot}
+\usepackage{eso-pic}
+\tikzexternalize[shell escape=-enable-write18,optimize command away=\includepdf]
+\usepackage{float}
+\renewcommand{\listfigurename}{List of graphs}
+\usepackage{setspace}
+\usepackage{blindtext}
+\usepackage[notquote]{hanging}
+\raggedbottom
+\usepackage{cancel}
+\newcommand{\cancelroot}[1]{%
+	\sbox0{$\displaystyle\sqrt{\vphantom{#1}}$}%
+	\cancel{\phantom{\usebox0}\hspace{0.5em}}\hspace{\dimexpr-\wd0-0.5em}%
+	\sqrt{#1}%
+}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markboth{}{\emph{\thesection~#1}}}
+\renewcommand{\subsectionmark}[1]{}
+\newcommand{\hr}{\noindent\hrulefill}
+\fancyhf{}
+\fancyhead[RE]{\textbf{Mathematical models in Roller Coasters}}
+\fancyhead[LO]{\rightmark}
+\cfoot{\newline \newline Page \thepage}
+\setcounter{tocdepth}{2}
+\newcommand{\changelocaltocdepth}[1]{%
+	\addtocontents{toc}{\protect\setcounter{tocdepth}{#1}}%
+	\setcounter{tocdepth}{#1}%
+}
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+	{-2.5ex\@plus -1ex \@minus -.25ex}%
+	{1.25ex \@plus .25ex}%
+	{\normalfont\normalsize\bfseries\itshape}}
+\makeatother
+\setcounter{secnumdepth}{4}
+\usepackage[utf8]{inputenc}
+%\usepackage{babel-french}
+\usepackage[main=english,french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{datetime}
+\newdateformat{mydate}{\monthname[\THEMONTH] \ordinal{DAY}, \THEYEAR}
+\renewcommand{\Bbb}[1]{\mathbb{#1}}
+\newcommand{\ds}{\displaystyle}
+\fontfamily{Arial}
+\renewcommand{\phi}{\varphi}
+\newcommand{\tang}{\top}
+%\renewcommand{\vec}[1]{\vec{#1}\,}
+\usepackage{pythonhighlight}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{caption}
+\newcommand{\source}[1]{\caption*{Source: \textit{#1}} }
+\usepackage{subcaption}
+\usepackage{hyperref}
+\makeatletter
+\let\@unexpandableprotect\@unexpandable@protect
+\makeatother
+\hypersetup{
+	colorlinks=true,
+	linktoc=all,
+	linkcolor=blue,
+	citecolor=black,
+}
+\usepackage[all]{hypcap}
+\usepackage[style = numeric, backend = biber, sorting = none]{biblatex}
+\addbibresource{References.bib}
+\usepackage{csquotes}
+\renewcommand{\quote}[1]{\og#1\fg{}}
+\usepackage[symbol={\rotatebox[origin=c]{90}{$\Rsh$}}]{footnotebackref}
+\newcommand{\link}[1]{https://mathinrollercoasters.com/animations/#1.html}
+\newcommand{\LinkToAnimation}[2]{
+\noindent The code for the animation can be found \hyperref[sec:Appendix III_#1]{Appendix III - #1} section.
+
+\noindent The link to the animation on YouTube is as follows:
+	
+\noindent \href{\link{#2}}{#1 Animation (\link{#2})}.
+	
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.3\textwidth]{QR/QR_Animation_#1.jpg}
+\end{figure}
+}
+
+\title{Mathematical models in Roller Coasters}
+\author{Arnau del Río}
+\date{\today}
+
+\begin{document}
+	\begin{titlepage}
+		\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+	
+		\centering
+		
+		\vfill
+		
+		\textsc{\LARGE Research Project}\\[1.5cm]
+		
+		\textsc{\Large Institut Pere Vives i Vich}\\[0.5cm]
+		
+		\textsc{\large Igualada}\\[0.5cm]
+		
+		\HRule\\[0.8cm]
+		
+		{\huge\bfseries Mathematical Models}\\[0.5cm]
+
+		{\huge\bfseries in Roller Coasters}\\[0.6cm]
+		
+		\HRule\\[2cm]
+		
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushleft}
+				\large
+				\textit{Author}\\
+				\textsc{Arnau del Río}
+			\end{flushleft}
+		\end{minipage}
+		~
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushright}
+				\large
+				\textit{Supervisor}\\
+				\textsc{Albert Granados}
+			\end{flushright}
+		\end{minipage}
+		
+		\vfill
+		
+		{\large\mydate\today}
+		
+		\vfill
+	\end{titlepage}
+
+	\thispagestyle{empty}
+	
+	\cleardoublepage
+	
+	\setcounter{page}{1}
+	
+	\addtocontents{toc}{\vspace*{-10mm}\begin{flushright}
+		\textbf{Page}
+	\end{flushright}\par}
+	
+	\section*{Abstract}
+	\addcontentsline{toc}{section}{Abstract}
+	
+	\subsection*{Català}
+		Aquest treball de recerca és un estudi matemàtic dels diferents elements que formen els recorreguts de les muntanyes russes. És habitual que la física sigui el focus principal a l'hora d'analitzar el comportament de les muntanyes russes, i hi ha nombrosa informació sobre el tema. Aquest treball en canvi, té un enfoc matemàtic, tot cercant la difusió de les matemàtiques aplicades com a mitjà d'anàlisi i tenint com a objectiu final el de poder construir animacions de les diferents seccions d'una muntanya russa.
+		
+		Per dur a terme aquesta tasca, s’introdueixen en primer lloc els conceptes i notació fonamentals que matemàticament es requereixen per aquesta construcció, per passar a continuació a descriure els elements més significatius que pot tenir una muntanya russa. Aquests elements poden ser de dos tipus: els que es poden definir de forma explícita (la corba, la paràbola i la catenària) i els que es defineixen amb equacions paramètriques (l'hèlix, el gir en línia, el bucle vertical, i el tirabuixó). Finalment s’inclouen les animacions programades resultat de les fórmules matemàtiques que descriuen els diferents elements.
+		
+		També s'inclou un apartat en el que s'analitzen muntanyes russes existents amb dades enregistrades en temps real.
+		
+	\subsection*{English}
+		This research project is a mathematical study of the different elements which can be found in roller coasters. It is quite common for physics to be the focus in the analysis of the behavior of roller coasters, and there is a lot of information on this topic. In contrast, this research report is centered on the mathematical point of view while trying to popularize the use of applied math as a method of analysis and having as the final objective creating animations of the different sections of roller coasters.
+		
+		To achieve this, the required mathematical concepts and the fundamental notation are first introduced before moving on to the description of each of the most important elements that a roller coaster can feature. These elements can be classified into two categories: the ones that can be written explicitly (the curve, the parabola, and the catenary) and the ones that must be written in a parameterized form (the helix, the in-line twist, the vertical loop and the corkscrew). Finally, the programmed animations of the mathematical formulas that describe each element are shown.
+		
+		Additionally, there is a section in which existing roller coasters are analyzed by using data collected recorded in real time.
+	
+	\newpage
+	
+	\section*{Acknowledgments}
+	\addcontentsline{toc}{section}{Acknowledgments}
+	
+	\input{Aknowledgements}
+	
+	\newpage
+	
+	\tableofcontents
+	\addcontentsline{toc}{section}{Table of Contents}
+	
+	\newpage
+		
+	\listoffigures
+	\addcontentsline{toc}{section}{List of Figures}
+	
+	\cleardoublepage
+	
+	\section{Introduction}
+	Roller coasters are perhaps the most iconic invention that humanity has created to amuse and thrill people. Their evolution along time, from the first Russian mountain slides to the actual mega-coasters we see nowadays, is an amazing example of the science behind the service of leisure.
+	
+	Modern roller coasters can be really complex, but in the end they can all be divided in small fragments which can be studied individually. In the roller coaster industry, these small fragments are called \textbf{\textit{elements}}. By joining and evolving elements, new roller coasters can be built, providing all sorts of amusing experiences to the rider.
+	
+	As the title of this report suggests, I will be using a mathematical point of view all along the project to analyze roller coasters and their elements, with brief inclusions of physical laws. But why math? Math is a crucial concept to the design of roller coasters, but from my point of view it isn't appreciated enough. In other research projects, people opt for using physics to analyze or create their own roller coasters, but I thought it would be more interesting to take on a mathematical and geometrical view. I also thought that it would be interesting to animate the different elements of a roller coaster that I analyzed, and having the mathematical functions that form the shape of these elements makes it much natural, rigorous, and precise.
+	
+	This research project consists of the mathematical analysis of the different elements that can be used to build roller coasters. Note that in the analysis of the resulting forces, the force of friction is not considered unless it is said otherwise.
+	
+	As is described later, elements may have several defining characteristics. For example, any element can be either inverting or non-inverting, depending on the vertical tilt angle. Once the tilt angle surpasses 135º, an element is considered an inversion. There are some elements that may even have a double inversion, meaning that riders are inverted twice in a small interval. Some elements can also be divided into subsections of track, so it is considered a different element if there is an intermediate or connecting element to distinguish them, like a curve or a break run. In the case of the elements that are mentioned in this report, they all are different types of curves.
+	
+	I have divided the elements into two main categories: explicit elements and parameterized elements. The explicit ones are the simplest and are solved in a relatively similar way. These elements only need the $x$, $y$ and $z$ coordinates to express the full route. Parameterized elements, on the other hand, are used when a curve cannot be written explicitly and are quite more complex and present more difficulties in the way they are solved. This is because a certain value of one of the axes can have more than one point or the curve self-intersects. For these shapes, I will also need the parameter $\theta$ to be able to express the full function.
+	
+	As a general rule, each element analyzed is described using four main sections: an introduction and explanation with a drawing of the corresponding shape, the mathematical equation(s) and their procedures, a small explanation and representation of the resulting forces and finally a link to an animation that shows the element in action in a rendered video.
+	
+	The final objective of this research project is to be able to animate the different shapes with respect to time. For the final animation, I have prioritized the conservation of energy over following the actual shape.
+	
+	Stating that there is a lot of generic information on roller coasters already available to the general public through Internet and books, I have opted not to include a historical section. Although they could complement and contextualize this project, they aren't relevant to the topics covered. Despite that, I must admit that much of this information has been used to gain the knowledge to structure the document. So, I have selected some of the most interesting resources I have used and included them in the \hyperref[sec:Bibliography]{Bibliography} section. Additionally, for some of the elements I have still used a comparison to previous models and ideas to be able to explain the peculiarities of the modern elements in a better and more comprehensive way.
+	
+	As a side note, real roller coaster designers don't actually use all the math explained here for every single roller coaster. Some computer programs, such as the \href{https://www.nolimitscoaster.com/}{\textit{NoLimits Roller Coaster Simulator}}, allow designers to easily create realistic ride proposals to send to potential customers for a bidding on a project without the burden of calculating all the formulas and forces. As the focus of this report are the calculations themselves, I have not used any simulator as a such and instead, the animations have been built using \href{https://www.blender.org/}{\textit{Blender 3D}}, an open-source rendering software, by using the final formulas calculated. Thus, it is Blender which, through being programmed, solves the mathematical model of the equation of motion.
+		
+	All the mentioned animations which I have programmed are published in my \href{https://www.youtube.com/@arnaudelrio}{\textit{YouTube channel}} and this document itself can also be reached through the Internet, at my site \href{https://mathinrollercoasters.com/}{\textit{mathinrollercoasters.com}}, along with a link to the video, as I want to promote the use of math in roller coasters. This is also the reason why this research project is written in English. Also, all the source code is publicly available through GitHub. Thus, I have made all the contents of the project, from the document to the source code, available to other researchers under a CC BY-SA license.
+	
+	Along the document, some links are included, which lead to the animation on YouTube of the several elements analyzed. These animations have been designed and rendered with Blender 3D using Python (see \hyperref[sec:Appendix III]{Appendix III} for the corresponding source codes).
+	
+	This document has been written in the mathematical text format \LaTeX, as explained in \hyperref[sec:Appendix I]{Appendix I}.
+	
+	\cleardoublepage
+	
+	\section{Notes on Mathematical Concepts and Notation}
+	To make this report more readable, here are some concepts and notations used throughout this document that may not be known to the reader.
+	
+	\begin{itemize}
+		\item \textbf{Main Variables}: First of all, the main variable that I'm going to use is time, represented as $t$. I'm going to use $r$ to mean the whole vectorial position, which can be divided into the $x$, $y$ and $z$ components. The first and second derivatives of the position $r$, are velocity $v$, and acceleration $a$ respectively. I'm going to use subscript to indicate a certain component of the velocity ($v_x$, $v_y$ and $v_z$) or acceleration ($a_x$, $a_y$ and $a_z$). For circular movement, I'm going to use their respective Greek letters: $\phi$ for angle, $\omega$ for angular velocity and $\alpha$ for angular acceleration. On the other hand, I'm going to use the letter $g$ to represent gravity (for this project, $g = 9,8\ m/s$ as we are going to consider that we stay relatively close to the surface of the Earth) and $m$ for mass (although I will be assuming that there is no force of friction, so I'm not going to talk much about mass).
+		
+		\item \textbf{Secondary Variables}: To represent angles, I won't be using $\alpha$ as it is already used for the angular acceleration and might cause confusion. Instead, I'm going to use $\beta$ for slope angles, $\sigma$ for the angle between vectors and $\theta$ for rotation angles (from a specified point of view and commonly used as an additional parameter in which the function can be parameterized).  Any other parameter will be represented by using a $\lambda$. The slope of a curve will be represented using a $p$ (which means that $\tan \beta = p$). Additionally, sometimes one of these variables will be equaled to $k$, which symbolizes that the variable is an arbitrary known constant, and therefore does not depend on any dynamic variable like position, angle, or time. Lastly, the variable $n$ will be used to denominate an arbitrary step in Euler's method (explained below) by using $n + 1$ as the following step.
+		
+		\item \textbf{Energy}: In physics, the conservation of energy principle states that the total energy of a system always remains constant\footnote{This system has to be isolate, as there can't be energy entering or exiting the system to preserve this principle.}. The conservation of energy is only true for conservative forces, which are the ones in which the path followed from one point to another doesn't affect the total mechanical energy. In this project, we are going to talk about three main types of energy: kinetic energy, potential energy and mechanical energy. Kinetic energy is the energy an object has when moving. The formula for the kinetic energy is $E_c = 1/2 \cdot m \cdot v^2$. As we can see, the kinetic energy depends on the velocity. Potential energy is the energy an object has because of its location. Its formula (assuming a constant gravitational field) is: $E_p = m \cdot g \cdot h$. Note that the potential energy depends only on the height. Mechanical energy is the total energy (the sum of potential and kinetic energy): $E_M = E_c + E_p$.
+		
+		\item \textbf{Forces}: There are six main types of forces: weight, normal force, force of friction, net force, the centripetal acceleration, and any external forces.
+			\begin{itemize}
+				\item The \textbf{weight} (represented using $W$) is produced by a gravitational force, usually from a planet and does therefore not require any contact between the two objects. This force is constant as long as we are staying at the same distance from the planet. This force varies slightly with the position of the object, and it is produced by both objects simultaneously, but as we are going to consider that one of the objects is planet Earth, the force produced by the object attracting the planet gets neglected. The weight is represented using the formula: $W = m \cdot g$.
+				\item The \textbf{normal}\footnote{In mathematics, the word normal is a synonym for perpendicular.} force is the force generated by a surface holding an object. Therefore, the normal force counteracts any other force applied on the object (usually the weight) so that the acceleration in that axis is $0$.
+				\item The \textbf{force of friction} is the resistance that a surface presents for moving an object. Therefore, it is always opposite to the direction of movement. There are two types of friction forces: static forces, which stop an object from gaining velocity, and dynamic forces, which stop the object once it has a certain velocity\footnote{This force requires for the two objects to be in contact, but air also counts and produces resistance.}.
+				\item The \textbf{net force} is the vectorial sum of total forces: $F_{net} = \sum F$. It represents the resulting force on an object, as it takes into account the direction of each force, so that any opposite component of a pair of forces gets canceled out.
+				\item The \textbf{centripetal force} is the force used to keep an object in a circular trajectory. Although it is technically only the consequence of another force, the centripetal force can be calculated by using all the forces that go towards the circle. The centripetal acceleration is therefore always perpendicular to the track.
+				\item The rest of the forces are classified as \textbf{external forces} because they come from external sources such as a magnetic field (magnetic force), a motor (mechanical force) or a rope (tension). In this project, we will not consider any external forces acting on an object, as this does not happen in real roller coaster (except in the initial launches or lift hills).
+			\end{itemize}
+		
+		\item When talking about forces, they can easily be divided into two components: the vertical and the horizontal, but that's not always best way to do so. Sometimes, we are going to use the \textit{tangential} (which is tangent to the curve: $F_\tang$) and sometimes the \textit{normal} (which is perpendicular to the curve $F_\perp$). When there is more than one force involved (which is usually the case), we will use the previously mentioned concept of \textit{net force} to imply the vector sum of forces.
+		
+		\item It is important to remember the difference between \textit{mass} and \textit{weight}. When talking about the mass of an object (measured in $kg$), we are referring to the physical property of the object produced by its molecules. Weight is used to talk about the attractive force produced by two objects with mass. The connection between mass and weight is therefore: $\vec{W} = m \cdot \vec{g}$.
+		
+		\item There is another important distinction to be recalled regarding the terms \textit{speed} and \textit{velocity}. Firstly, speed is the time rate at which an object moves along a path, while velocity is the rate and direction of the movement of an object. Therefore, speed is a scalar value (in $m/s$), while velocity is a vector. So, we can say that speed represents the modulus of the velocity. When talking about acceleration, we will always be referring to the vector unless we explicitly say that we have the modulus of the acceleration.
+		
+		\item \textbf{Ordinary derivatives}: There are three ways in which we can represent derivatives. Newton's notation states that the symbol $\dot{y}$ is used to symbolize the derivative of the function (in this case $y$), but only with respect to time. If the derivative is not with respect to time, we can use one of the other notations. Leibniz's notation is written as $\ds \frac{df(x)}{dx}$ (i.e., derivation of the function $f(x)$ respect to the variable $x$) and it is used mainly in physics and other applied mathematics. However, the most common notation for derivatives in theoretical mathematics is the use of Lagrange's notation, which uses primes to indicate the derivative: $f'(x)$ (this would represent the derivative of the function $f(x)$ with respect to $x$, which is the variable commonly used in equations). This way, $\dot{y}$ is the equivalent form of $\ds \frac{dy}{dt}$ and $y'(t)$. The number of dots, the exponent or the number of primes indicate the order of the derivative. So, the third derivative with respect to time of the function $y$ could be represented as: $\ds\dddot{y} = \frac{d^3y}{dt^3} = y'''(t)$.
+		
+		\item \textbf{Partial derivatives}: Partial derivatives are used in some branches of mathematics. They are quite common, and are used when there are several independent variables, but we just want to integrate with respect to one of them. Partial derivatives are written using the following notation: $\ds\frac{\partial y}{\partial x}$, which is similar to Leibniz's notation. Despite this, the $\ds\frac{d}{dx}$ notation is also used to represent partial derivatives depending on the context.
+		
+		\item To avoid confusion, the symbol $|x|$ is used as the absolute value of the number, and $\|\vec{x}\|$ to denominate the modulus (length) of a vector.
+		
+		\item \textbf{Vectors}: It is important to spot another couple of different symbols used while talking about vectors. Mainly, $\vec{u}$ is used to represent the vector using the components, $u_x$ and $u_y$. To represent the modulus of the vector, $\|\vec{u}\|$ is used. Therefore, according to the Pythagorean theorem, $\ds \|\vec{u}\| = \sqrt{u_x^2 + u_y^2}$. Additionally, the unitary vector\footnote{A unitary vector is a vector that derives from another one but has modulus $1$.} of $\vec{u}$ is represented as $\hat{u}$, and it is calculated using $\ds \hat{u} = \frac{\vec{u}}{\|\vec{u}\|} = \left(\frac{u_x}{\|\vec{u}\|}, \frac{u_y}{\|\vec{u}\|}\right)$. It is important to note that a variable may or may not have the vector above it, and it is considered a different variable depending on it, for example $p$ and $\vec{p}$\footnote{This is usually avoided by using other variables, but it is sometimes necessary. In the few cases that this may happen, the two values will probably have a relation in meaning.}.
+		
+		\item \textbf{Multiplication of Vectors}: There are two main ways in which vectors can be multiplied: scalar product or vector product. When talking about a \textbf{scalar product}, the result of the multiplication is a scalar value, and has therefore no directorial dimensions. The formula for the scalar product is (where $\sigma$ is the angle between the two vectors, $\vec{v}$ and $\vec{w}$):
+			$$\vec{v} \cdot \vec{w} = \|\vec{v}\| \cdot \|\vec{w}\| \cdot \cos(\sigma)$$
+			
+		On the other hand, a \textbf{vector product} does result in another vector, and it can be calculated using the formula (where $\sigma$ is the angle between the two vectors, $\vec{v}$ and $\vec{w}$, and $\hat{u}$ is a unit vector perpendicular to both $\vec{v}$ and $\vec{w}$ in an additional dimension):
+			$$\vec{v} \times \vec{w} = \|\vec{v}\| \cdot \|\vec{w}\| \cdot \sin(\sigma) \cdot \hat{u}$$
+		
+		
+		\item Lastly, we are going to consider that the object stays affixed to the shape, like in actual roller coasters. This means that we are going to try to fit the mathematics to the model, which will give us a clear result when animating the shape.
+	\end{itemize}
+	
+	\newpage
+	
+	\subsection*{Types of Equations}
+	The following are the types of equations that will be mentioned in this project:
+	\begin{itemize}
+		\item \textbf{Algebraic equation}: The most common type of equations, in which the unknown variable or variables is present using only elementary functions. The degree of the equation is known by the highest exponent of the unknown variable. These are usually solved by finding a way to isolate the unknown variable.
+		
+		\item \textbf{Differential equation}: In a differential equation, the unknown function appears in conjunction with its derivatives. The order of this equation is determined by the highest derivative. These are more difficult to solve than the algebraic equations, as sometimes only the type of function that would solve the function itself can be figured out and additional values or conditions to find the final explicit equation may be necessary to be known.
+		
+		\item \textbf{Explicit equations}: In an explicit function, the output variable (dependent variable) can only be expressed directly in terms of the input variable (independent variable). Dependent and independent variables are commonly found in an explicit function. The values of the variables in an explicit function are easier to determine because of its more straightforward expression. On the contrary, an implicit function is one that cannot be expressed as one variable in terms of another variable.
+		
+		\item \textbf{Parametric equations}: A parametric equation is a group of functions of several independent variables called parameters that make up a curve or surface. Usually, all these parameters depend on a common variable. These type of equations are commonly used as coordinates ($x, y$). A lot of functions can be parameterized, but only some parametric equations can be transformed into simple functions. Almost all explicit functions (which are defined as: $y = f(x)$) can be parameterized easily by using a change of variable:
+			$$\left\{\begin{array}{rcl} x &=& t \cr y &=& f(t) \end{array}\right.$$
+		
+		\item \textbf{Discretized equation}: In this type of equation, variables are represented as a function with respect to the previous value. Because of this, it is necessary to set the initial conditions. In this report, they will be used as an alternative for finding the solution to a differential equation. The main downside of this type of equation is that only the value at a specific point can be calculated by using small increments from the start up to that value. The smaller the increments, the more precise the solution will be, as we get closer to an actual differential.
+	\end{itemize}
+
+	Equations can also have the following properties:
+	\begin{itemize}
+		\item \textbf{Order and degree of an equation}: Although they are similar, order and degree do not mean the same. On one hand, order is used to express the highest derivative and only makes sense in differential equations (as algebraic equations always have order $0$). On the other hand, degree represents the highest power of an equation. The degree of an expression is mainly used in algebraic equations but can also be used in differential equations (differential equations with a degree higher than $1$ tend to be harder to solve). There are some functions that receive a special classification according to their degree: linear equations are degree $1$, quadratic equations have degree $2$, cubic are degree $3$, and so on.
+		
+		\item \textbf{Linearity}: A linear algebraic equation is the one that draws a line. Its formula is $y = m \cdot x + n$, where $m$ and $n$ are constants. In a linear equation, the variable is only multiplied by a constant value. Similarly, in differential equations each derivative is only multiplied by a constant value and isn't raised to a power. Generally, linear equations are solvable with relative ease, but most non-linear equations usually cannot be solved exactly and are the subject of much ongoing research. However, in some cases non-linear equations can be solved in specific ways, for example reducing the order of the equation or numerically discretizing the equation (like in initial value problems).
+		
+		\item \textbf{Ordinality}: An ordinary equation has a finite, also called discrete, set of variables. A partial equation has an unknown or infinite number of variables. To solve these differential equations, we approximate the partial differential equation into an ordinary differential equation.
+		
+		\item \textbf{Homogeneity}: An equation is considered homogeneous if the variable in which the function is derived appears by itself, without multiplying or dividing the function. This classification isn't used as often, as very few equations have specific solutions for being homogeneous. An equation cannot be linear and homogeneous at the same time, as the function or one of its derivatives would be multiplied by a number that isn't constant.
+	\end{itemize}
+	
+	\cleardoublepage
+	
+	\subsection*{Newton's Laws of movement}
+	\subsubsection*{First Law: Inertia}
+	{\leftskip50pt\parindent0em\rightskip20pt
+		\textit{\quote{An object at rest remains at rest, and an object in motion remains in motion at constant speed and in a straight line unless acted on by an unbalanced force.}}%
+	}
+
+	Newton’s first law states that every object will remain at rest or in uniform motion in a straight line unless compelled to change its state by the action of an external force which doesn't get balanced out. Balancing out the net force of an object is quite easy (all objects that are not moving are balanced out). This tendency to resist changes in a state of motion is inertia and is represented by the force of friction. If all the external forces cancel each other out, then there is no net force acting on the object. And if there is no net force acting on the object, then the object will maintain a constant velocity. \cite{NASA-NewtonLawsOfMotion}
+	
+	This law of motion is essentially only theoretical, as there is always an unbalanced force acting on every object, usually the force of friction. As we are going to assume that there is no force of friction in this project, it is sometimes possible to apply this law, at least to one of the axes (usually the horizontal one, when the weight and the normal force cancel out).
+	
+	\subsubsection*{Second Law: Force}
+	{\leftskip50pt\parindent0em\rightskip20pt
+		\textit{\quote{The acceleration of an object depends on the mass of the object and the amount of force applied.}}%
+	}
+
+	Newton's second law defines that the sum of forces is equal to change in momentum\footnote{Momentum, $\vec{p}$, is defined to be the mass $m$ of an object times its velocity $v$: $\vec{p} = m \cdot \vec{v}$.} per change in time. This can be represented as:
+	
+	$$\sum \vec{F} = \frac{d\vec{p}}{dt} = \frac{\vec{p}_1 - \vec{p}_0}{t_1 - t_0} = \frac{m \cdot \vec{v}_1 - m \cdot \vec{v}_0}{t_1 - t_0}$$
+	
+	As we know that $\ds \vec{a} = \frac{\vec{v}_1 - \vec{v}_0}{t_1 - t_0}$, we can rewrite the expression above as\footnote{We are considering that the mass of an object is constant, otherwise this simplification would be impossible.}:
+	
+	$$\sum \vec{F} = m \cdot \vec{a}$$
+	
+	This equation proves that an object subjected to a force will accelerate proportionally to the value of that force. It also tells us that the object will accelerate inversely proportional to the mass, as heavier object will experience less acceleration than a lighter object when applied under the same net force. This also means that there can't be an acceleration without an external force causing it.
+	
+	Newton's Second Law also proves his First Law, as if the net force is zero, the acceleration has to be zero, considering that every object has mass.
+	
+	It is important to note that velocity, force, acceleration, and momentum are vector quantities, and have magnitude and direction.
+	
+	\subsubsection*{Third Law: Action and Reaction}
+	{\leftskip50pt\parindent0em\rightskip20pt
+		\textit{\quote{Whenever one object exerts a force on another object, the second object exerts an equal and opposite on the first.}}%
+	}
+
+	When an object receives a force from another object, it produces the same force on that object. For example, the gravitational pull that the earth exerts on an object is the same force that this object produces on the earth. This means that every force comes from the interaction between two objects, which can be either attractive or repulsive.
+	
+	For objects to move freely, the Second Law show us that the acceleration that results from those forces is proportional to the mass of the object, which means that each object will accelerate differently.
+	
+	This law justifies the normal force produced by an object holding another object and proves that the normal force is always perpendicular, as the reactive force produced to hold the object always points at it.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[xmin = -10, xmax = 10, ymin = -10, ymax = 10, axis equal, yticklabel=\empty, xticklabel=\empty]{
+				\addplot[->, line width=.5mm] (-5, 0) -- (-2, 0);
+				\addplot[->, line width=.5mm] (5, 0) -- (2, 0);
+				\draw (axis cs: -5, 0) circle [radius=1];
+				\draw (axis cs: 5, 0) circle [radius=4];
+				\node at (3.1, 1) {$\vec{F}_{ab}$};
+				\node at (-3.1, 1) {$\vec{F}_{ba}$};
+			}
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Chart displaying Newton's Third Law}
+		\label{fig:Newton's Third Law}
+	\end{figure}
+	
+	\newpage
+	
+	\section{General Method for Finding The Law of Motion}
+	As a general rule, the first steps to obtain the formula that describes an object's motion with respect to time are always focused on finding a differential equation to solve. As in all mechanical systems, the expression of motion comes from the acceleration which is projected into the shape of the element through the forces and restrictions involved. In roller coasters, we know that the force of the track against the object, the normal force, is perpendicular to the curve itself, so we can calculate the total acceleration by canceling it out with the normal component of the gravitational force. In the chart below, we can see a representation of a function with a tangent vector showing the vertical and horizontal components. The angle between the tangential line and the horizontal axis is represented as the $\beta$ angle.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[xmin = -6, xmax = 6, ymin = -30, ymax = 30, legend pos=north west]{
+				\addplot{x^3 - 2*x};
+				\addplot[->, line width=.5mm] (2, 4) -- (4, 30);
+				\addplot[line width=.2mm, densely dashed] (2, 4) -- (4, 4);
+				\addplot[line width=.2mm, densely dashed] (4, 4) -- (4, 30);
+				\coordinate (A) at (4, 30);
+				\coordinate (B) at (2, 4);
+				\coordinate (C) at (4, 4);
+				\pic [draw, "$\beta$", angle radius=.5cm, angle eccentricity=1.5] {angle = C--B--A};
+				\legend{$f = x^3 - 2x$}; 
+				\node at (3, 2) {$a$};
+				\node at (4.3, 15) {$b$};
+			}
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Representation of the components of the slope vector}
+		\label{graph:Force Projection Explanation}
+	\end{figure}
+	
+	This slope can be calculated using either the angle or the derivative: $p = \frac{b}{a} = \tan(\beta) = f'(x)$. The slope will be used to select the component of the gravitational force which gets projected onto the element.
+
+	There are three ways in which we will be able to obtain the resulting total acceleration, which are: the \textbf{trigonometric projection}, the \textbf{vectorial projection with respect to a variable} and the \textbf{vectorial projection with respect to a parameter}. The trigonometric projection allows us to use the angle of the slope to calculate the effect of gravity on the object. In contrast, the vectorial projection uses vectors to do the same. We are going to decide on one or the other depending on which variables we have and which of those stay constant along the trajectory, and also on which variables change with time.
+	
+	The most important variable we must consider is the slope at each point, as the trigonometric projection method is mostly useful when the angle of the slope remains constant. This is because in our formulas, the slope of the curve will be used, and we will therefore have the angle of the slope inside a trigonometric function, which will not be solved easily.
+
+	\subsubsection*{Trigonometric projection}
+	Firstly, we are going to project the gravitational pull to the shape of the element so that all the other forces get canceled out. This can be done using the cosine function of the angle as follows:
+	
+	$$\|\vec{a}_T\| = g \cdot \cos{\theta}$$
+	
+	The vertical acceleration can then be calculated exacly the same way, as we can now use the total tangential acceleration and the slope angle to find its vertical component.
+	
+	$$\|\vec{a}_Z\| = \|\vec{a}_T\| \cdot \cos{\theta} = g \cdot \cos^2{\theta}$$
+
+	\subsubsection*{Vectorial projection with respect to a variable}
+	
+	Another method is to project the gravitational pull using vectors. These avoid using the slope of the curve by using the derivative function. To do so, we define two vectors: one for the full vertical gravitational force, which is $\vec{g} = (0, g)$ and one for the tangent, which is $\vec{u} = (1, f'(x))$ for any point $(x, f(x))$.
+	
+	Now we are going to use the scalar product, which is defined as:
+	
+	$$\vec{u} \cdot \vec{g} = \|\vec{u}\| \cdot \|\vec{g}\| \cdot \cos \sigma$$
+	
+	By using a unit vector for $\vec{u}$, the formula becomes:
+	
+	$$\hat{u} \cdot \vec{g} = \|\vec{g}\| \cdot \cos(\sigma)$$
+	
+	Notice how $\|\vec{g}\| \cdot \cos(\sigma)$ is the decomposition of $\vec{g}$ in the direction of $\vec{u}$. This gives us the tangent component of the gravity that doesn't cancel out with the normal force. If we had that $\|\vec{u}\| = 1$, the scalar product of the two vectors would equal the projection of $\vec{g}$ to the tangent component of the parabola. To get the unit vector, we divide the vector by its modulus: $\ds \hat{u} = \frac{\vec{u}}{\|\vec{u}\|}$
+	
+	Next, we are going to transform the $\vec{u}$ vector into a unitary vector using the corresponding formulas:
+	
+	$$\hat{u} = \frac{\vec{u}}{\|\vec{u}\|} = \frac{(1, f'(x))}{\sqrt{1 + f'^2(x)}}$$
+	
+	This unitary vector is always tangent to the curve, which will allow us to find the vector that is tangent to the shape but has the modulus of the tangent acceleration produced by gravity. The tangential acceleration indicates how much the velocity changes at each interval, and it is the direct representation of the gravitation force with respect to the slope at that point.
+	
+	$$\|\vec{g}\| \cdot \cos(\sigma) = \hat{u} \cdot \vec{g} = \frac{(1, f'(x))}{\sqrt{1 + f'^2(x)}} \cdot (0, g) = \frac{g \cdot f'(x)}{\sqrt{1 + f'^2(x)}}$$
+	
+	Now that we have the modulus of the acceleration, we are going to multiply it by the unitary vector again to obtain the total vector that defines the acceleration:
+	
+	$$\vec{a} = \underset{\text{Modulus of the acceleration}}{\underbrace{\frac{g \cdot f'(x)}{\sqrt{1 + f'^2(x)}}}} \cdot \underset{\hat{u}}{\underbrace{\frac{(1, f'(x))}{\sqrt{1 + f'^2(x)}}}} = \left(\frac{g \cdot f'(x)}{1 + f'^2(x)}, \frac{g \cdot f'^2(x)}{1 + f'^2(x)}\right) = (\vec{a}_x, \vec{a}_y)$$
+
+	\subsubsection*{Vectorial projection with a parameter}
+	Similarly to the vectorial projection for explicit curves, the objective this time is to use the unit vector to project the gravity towards direction of movement. Now, the unit vector can be found using the following formula (for this explanation, I'm going to assume that we have a three-dimensional curve defined by the parameter $\theta$):
+	
+	$$\hat{u} = \frac{\vec{u}}{\|\vec{u}\|} = \frac{(x'(\theta), y'(\theta), z'(\theta))}{\sqrt{x'^2(\theta) + y'^2(\theta) + z'^2(\theta)}}$$
+	
+	$$\|\vec{g}\| \cdot \cos(\sigma) = \vec{g} \cdot \hat{u} = (0, 0, g) \cdot \frac{(x'(\theta), y'(\theta), z'(\theta))}{\sqrt{x'^2(\theta) + y'^2(\theta) + z'^2(\theta)}} = \frac{g \cdot z'(\theta)}{\sqrt{x'^2(\theta) + y'^2(\theta) + z'^2(\theta)}}$$
+	
+	$$\vec{a} = \underset{\text{Modulus of the acceleration}}{\underbrace{\frac{g \cdot z'(\theta)}{\sqrt{x'^2(\theta) + y'^2(\theta) + z'^2(\theta)}}}} \cdot \underset{\hat{u}}{\underbrace{\frac{(x'(\theta), y'(\theta), z'(\theta))}{\sqrt{x'^2(\theta) + y'^2(\theta) + z'^2(\theta)}}}}$$
+	
+	$$= \left(\frac{g \cdot z'(\theta) \cdot x'(\theta)}{x'^2(\theta) + y'^2(\theta) + z'^2(\theta)}, \frac{g \cdot z'(\theta) \cdot y'(\theta)}{x'^2(\theta) + y'^2(\theta) + z'^2(\theta)}, \frac{g \cdot z'^2(\theta)}{x'^2(\theta) + y'^2(\theta) + z'^2(\theta)}\right)$$
+	
+	\newpage
+	
+	\subsection{The Differential Equation}
+	These three methods have now given us an expression to find the acceleration. Using this acceleration, we can now find the position at any point in time. As we surely don't have a formula with respect to time which we could derive, we have another intermediate parameter (usually an angle of rotation). If we can form a relation between this parameter and time, we can use this in our original equation to get the final formula.
+	
+	On one side of the differential equation, there is usually the acceleration, expanded using the chain rule and the product rule, and on the other side of the differential equation, there is usually the acceleration found using one of the methods above.
+	
+	Although these methods can help us solve some of the elements, there are some others that require a small step further to solve the resulting differential equation. This is mainly the case of the shapes in which there are two different values for a certain point in the $x$, $y$ or $z$ axis. Another problem these shapes might have is that the slope of the curve is completely vertical and therefore it is not derivable. The quickest workaround for both problems is to introduce a new variable, such as the arc length or the angle of rotation from a certain point of view, and finding an equation for each axis with respect to that new variable. This should produce a new differential equation that can be solved using one of the previous methods.
+	
+	We know that the acceleration is the second derivative of the position. If we can equal the tangential component of the gravity to the second derivative of the position, we might find a differential equation which we can solve. We know that our position isn't with respect to time, so we won't be able to find $\ddot{r}$ easily. Including a parameter in the derivative is quite easy with the chain rule (explained below).
+	
+	We would now equal the two expressions we have and then obtain a differential equation. In case of having a higher derivative, we would have to use the product rule, which would result in a bigger expression which probably cannot be solved as easily. For some differential equations, it is not necessary to solve them analytically. Instead, we can solve them numerically using some theorems like Euler's method or the midpoint method.
+	
+	\newpage
+	
+	\subsection{Euler's Method}
+	Euler's method is a procedure designed for solving ordinary differential equations using small splines\footnote{Splines is the segmentation of a curve using straight lines.}. As this method is based on the polygonal approximation of a certain curve at small increments, the precision of this method is inversely proportional to the number of segments, and we should therefore try to make the reduce the increments as much as possible.
+	
+	This method allows solving first-order differential equations numerically. For a higher order, this method can be used twice at each step. Because of this, the precision of the shape is going to decrease exponentially over time, as differential equations are usually going to be second-degree ODE (equations which include the second derivative of the function).
+	
+	Euler's method is quite simple, but we need some specific conditions. Firstly, we need to have an expression for the first derivative of the function. This expression is therefore an ordinary differential equation and should be expressed as a formula which uses only constant values and the variable of the function itself (which can't be in a derivative form). In our case, the expression we have won't depend on time (otherwise we would simply integrate the derivatives of the function until we get our formula with respect to time), but on other parameters, such as the position $x$.
+	
+	As the shape satisfies the given differential equation, we can think of it as a formula by which the slope of the tangent line to the shape can be calculated at any point by knowing only the value of the function at that point. Sometimes, the value of a derivative is also necessary, but that can also be calculated by using Euler's method as long as the degree of this derivative is strictly lower than the degree of the differential equation itself. As the derivative shows us the rate of change of a certain function, we can use small increments to determine the direction of the function at that moment, and therefore, its position. Considering that $\Delta x$ is the step size, also represented as the change in the variable $x$ of the function, from $n$ to $n + 1$: $\Delta x = x_{n + 1} - x_n$, we can express Euler's method as:
+	
+	$$\boxed{f(x)_{n + 1} = f'(x)_n \cdot \Delta x + f(x)_n}$$
+	
+	As each position is calculated from the previous one, we need to have the initial values of position and velocity for this method to work. This is why Euler's method is considered an initial value problem, along with similar structured theorems.
+	
+	In the case where we have a formula for the second derivative of a function, we can still use the same formula, but this time we will obtain the first derivative at each instant. Using Euler's method again with the value of the first derivative, we can then obtain the solution of the function.
+	
+	Therefore, Euler's method allows to obtain a system of discrete equations, which result in an expression for the result of the function at a certain moment by knowing the value of the derivative and the function of the previous step like this:
+	
+	$$\left\{\begin{array}{l} f(x)_{n + 1} = f'(x)_n \cdot \Delta x + f(x)_n \cr f'(x)_{n + 1} = f''(x)_n \cdot \Delta x + f'(x)_n \end{array}\right.$$
+	
+	As we are going to be using time, velocity, and acceleration, we can transform the formula into:
+	
+	$$\vec{r} = \left\{\begin{array}{l}
+		x_{n + 1} = v_n \cdot \Delta t + x_n \cr
+		v_{n + 1} = a_n \cdot \Delta t + v_n
+	\end{array}\right.$$
+	
+	For parametric equations, we also use Euler's formula more than once, one for each component. Sometimes we can establish a relation between the two independent variables, but we are going to use both components of the parametric equation because we will prioritize the conservation of energy over following the actual shape.
+	
+	\newpage
+	
+	\subsection{General Rules}
+	\subsubsection*{Chain rule}
+	The states that if we have a composition of functions, the derivative can be calculated by using the following formula (considering the function $x(y(t))$):
+	
+	$$\frac{dx}{dt} = \frac{dx}{dy} \cdot \frac{dy}{dt}$$
+	
+	\subsubsection*{Integration by parts}
+	This rule is used to solve some integrals which have a specific format. If we have two functions, $f(x)$ and $g(x)$, we can write the following formula:
+	
+	$$\int f(x)g'(x)\ dx = f(x)g(x) - \int f'(x)g(x)\ dx$$
+	
+	\subsubsection*{Leibniz product rule}
+	The product rule states that we can calculate the derivative of a product of functions by using the following formula:
+	
+	$$\frac{d}{dx}(f(x) \cdot g(x))' = f'(x) \cdot g(x) + f(x) \cdot g'(x)$$
+	
+	In our case, we want to derivate a function with respect to time. For example, if we have the function $y(\theta)$ and we derivate it with respect to time once by using the chain rule, we get:
+	
+	$$\dot{y}(\theta) = y'(\theta) \cdot \dot{\theta}(t)$$
+	
+	Now that we have a multiplication of independent functions, if we want the second derivative with respect to time of that function, we are going to find the derivative using the product rule:
+	
+	$$\ddot{y}(t) = \frac{d}{dx}\left(y'(\theta) \cdot \dot{\theta}(t)\right) = y''(\theta) \cdot \dot{\theta}^2(t) + y'(\theta) \cdot \ddot{\theta}(t)$$
+	
+	\subsubsection*{Leibniz integral rule}
+	In calculus, the Leibniz integral rule is a method that allows us to differentiate any integral of the form:
+	
+	$$\int_{a(x)}^{b(x)} f(x, \lambda)\ d\lambda$$
+	
+	The formula for Leibniz's integral rule states the following:
+	
+	$$\begin{array}{rl}
+		\ds \frac{d}{dx} \left(\int_{a(x)}^{b(x)} f(x, \lambda)\ d\lambda\right) =& \ds f(x, b(x)) \cdot \frac{d}{dx}b(x) \cr
+		& \ds - f(x, a(x)) \cdot \frac{d}{dx}a(x) \cr
+		& \ds + \int_{a(x)}^{b(x)} \frac{\partial}{\partial x}f(x, \lambda)\ d\lambda
+	\end{array}$$
+
+	Frequently, some components of this sum will get canceled, because either $a(x)$, $b(x)$ or $f(x, \lambda)$ is constant, and it's derivative is therefore $0$.
+	
+	\cleardoublepage
+	
+	\section{Explicit Elements}
+	
+	\subsection{Curve}
+	The basic curve is an element that changes the direction of the track. It is produced by a force pulling the rider towards the center of the curvature, as the roller coaster would otherwise continue on a straight path. This force is called the centripetal force and may be caused by several factors: a slope, a cable, the track of a roller coaster itself, and so on. Sometimes, several of these factors are used at the same time to minimize the effort of each individual force. This implies that some forces applied to the object moving along the curve may change direction or be divided into components.
+	
+	To allow the object to remain on the curve, the latter usually has a sideways slope pointing inwards at a certain degree. In roller coasters, there is no explicit need for this slope as the force of the tracks should be enough to produce the centripetal acceleration necessary, but it favors the conservation of energy and the smoothness of the rider's experience. On the other hand, some coasters use the absence of the slope, extreme banking, or an outward slope to add thrill to the ride. These variations receive the following names:
+	\begin{itemize}
+		\item \textbf{Banked curve}: This is just a slightly sloped curve (about 60 degrees). It is very common and sometimes imperceptible as it is mainly used to connect two pieces of track together that point in different directions.
+		
+		\item \textbf{Over-banked curve}: An over-banked curve is an element that consists of a turn or curve in which the track tilts beyond 90 degrees but less than 135 degrees.
+		
+		\item \textbf{Over-banked inversion}: It is similar to an over-banked curve, but it tilts more than 135º, which is the angle from which an element is considered an inverting element.
+		
+		\item \textbf{Outward banked airtime hill}: Over-banked curve that tilts outwards instead of inwards. These are quite rare and produce a small sensation of being launched into the air.
+		
+		\item \textbf{Flat turns}: As the name says, these element curves are completely flat without any slope, giving to the rider the sensation of tipping over (found in Wild Mouse roller coasters, which are known for the sensation of tipping over they produce as they have several flat turns in a row, e.g., Matterhorn Blitz in Europa-Park). This type of element is quite old, as it was easy to design and build.
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.7\textwidth]{Graphical Representation of Curve}
+		\caption{Graphical representation of the circle}
+		\label{graph:Curve}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\textwidth]{Fotos roller coasters/CurveMaxMoritz_small.jpg}
+		\caption{Max and Moritz roller coaster at Efteling, Holland}
+		\label{fig:MaxMoritz}
+		\source{By Arnau del Río, CC BY-SA 3.0 (2022)}
+	\end{figure}
+	
+	\subsubsection{Equation}
+	First, we are going to consider a perfect curve in which the radius remains constant. This produces a perfect circle, which has the following equation:
+	
+	$$x^2 + y^2 = R^2$$
+	
+	Now, we must find an alternative for this formula to be able to draw the actual circle with respect to time, as we can't use the one above because there is no dynamic variable. There are a lot of curves that cannot be written as a single equation in terms of only $x$ and $y$. To deal with this, we are going to introduce a new parameter, $\phi$, to produce a parametric equation. This new parameter would be the angle of rotation of the circle, which we are going to use to find a relation with time.
+	
+	$$\frac{x^2}{R^2} + \frac{y^2}{R^2} = 1$$
+	
+	By using the expression $\sin^2(x) + \cos^2(x) = 1$, we then know that:
+	
+	$$\begin{array}{ll} \ds \frac{x^{\cancel{2}}}{R^{\cancel{2}}} &= \sin^{\cancel{2}}(\phi) \cr\cr \ds \frac{y^{\cancel{2}}}{R^{\cancel{2}}} &= \cos^{\cancel{2}}(\phi) \end{array}$$
+	
+	In parametric form, we would write:
+	
+	$$\vec{r}(\phi) = \left\{\begin{array}{ll} x(\phi) &= R \cdot \sin{\phi} \cr y(\phi) &= R \cdot \cos{\phi} \end{array}\right.$$
+	
+	As the acceleration is zero, we know that there are no forces left that are perpendicular to the horizontal plane\footnote{This is because the gravitational force and the vertical component of the normal force cancel out.}. This is proven by Newton's second law:
+	
+	$$a_z = 0 = \frac{\sum F_z}{m}$$
+	
+	A similar principle can be applied to the horizontal axis, as the normal force produced by the tracks to keep the vehicle in the circular motion is applied as the centripetal force to keep the object in the circular trajectory. This means that we are assuming that we are in a perfect uniform circular motion.
+	
+	We can now state that the total circular acceleration is equal to $0$. This way we obtain a very simple differential equation:
+	
+	$$\alpha(t) = \ddot\phi(t) = 0$$
+	
+	Now we have all the information we need. Solving this equation is very straightforward, we just have to integrate twice, and we will obtain the formula for the uniform circular movement:
+	
+	$$\omega(t) = \omega_0 + \underset{0}{\underbrace{a \cdot t}}$$
+	
+	$$\phi(t) = \phi_0 + \omega \cdot t$$
+	
+	Lastly, we substitute $\phi$ in the expression stated above to get the circular position with respect to time (note that the initial angle is omitted, as we are going to adjust our perspective so that the initial angle becomes negligible):
+	
+	$$\boxed{\vec{r}(t) = (R \cdot \sin{(\omega \cdot t)}, R \cdot \cos{(\omega \cdot t)})}$$
+	
+	As a side note, most curves don't have a constant radius. These changing radiuses increase and decrease gradually and allow for the track to move towards another section of the ride. The change is not arbitrary, there are special types of variations that allow for a smooth experience and dampen any extreme G-forces that may be produced during the change in direction. The rate of change of a curve can vary (not just in a constant way, the rate of change of a curve can also change along the curve), producing the different types of curves that we find in roller coasters.
+		
+	\subsubsection{Resulting forces}
+	In the flat circle, the weight and the vertical component of the normal force cancel out and the centripetal force, produced by the tracks of the roller coaster, keeps the object in a uniform circular motion. The centripetal force can be calculated by using Newton's second Law:
+	
+	$$\vec{F}_c = m \cdot a_c = m \cdot \omega^2 \cdot r$$
+	
+	Despite this, most curves that are intended to be used at high speeds, such as roller coaster or highways, are banked. Most banked curves are usually unnoticeable, but roller coasters may feature a wide range of banking as the vehicle is always kept on track. Outwards slopes are extremely rare and produce an outwards force, as every object tends to follow a straight line. Inwards banked curves are the most common, and make the movement smoother, as the only the perpendicular component of the weight vector cancels out with the normal force, allowing for the tangent component to push the wagon inwards.
+	
+	For example, let's consider an inwards banked circle. From a front view, we can see that the slope allows for the object that is going through the curve to stay in the rotating motion. To simplify we are going to consider that there is no external force that is keeping the roller coaster in the circle. The only internal forces left are the gravitational pull and the normal force, and the resulting centripetal acceleration. The free-body diagram would be drawn as follows:
+	
+	\begin{figure}[H]
+		\centering
+		\resizebox*{0.8\textwidth}{0.8\textwidth}{
+			\begin{tikzpicture}
+				\begin{axis}[xmin = -1, xmax = 5, ymin = -1, ymax = 5, xlabel = $x$, ylabel = $y$, ylabel style={sloped like y axis}]{
+					\coordinate (A) at (0, 0);
+					\coordinate (B) at (0, 2);
+					\coordinate (C) at (4, 0);
+					\coordinate (O) at (2, 2);
+					\coordinate (P) at (2, 0.5);
+					\coordinate (S) at (2, 3.6);
+					\coordinate (T) at (3, 3.5);
+					\addplot[line width = 0.2mm] (0, 0) -- (4, 0);
+					\addplot[line width = 0.2mm] (0, 0) -- (0, 2);
+					\addplot[line width = 0.2mm] (0, 2) -- (4, 0);
+					\pic [draw, "$\beta$", angle radius = 0.5cm, angle eccentricity = 2] {angle = B--C--A};
+					\pic [draw, "$\beta$", angle radius = 0.5cm, angle eccentricity = 2] {angle = T--O--S};
+					\addplot[line width = 0.2mm, samples = 60]({sin(deg(x))*0.75 + 2}, {cos(deg(x))*0.75 + 2});
+					\addplot[->, line width = 0.6mm] (2, 2) -- (2, 0.2);
+					\addplot[->, line width = 0.6mm] (2, 2) -- (3, 3.5);
+					\addplot[->, line width = 0.3mm] (2, 2) -- (3.1, 2);
+					\addplot[->, line width = 0.3mm] (2, 2) -- (2, 3.6);
+					\node at (2.3, 0.2) {$\rm mg$};
+					\node at (3.3, 3) {$\rm N$};
+					\node at (3.5, 2.2) {$\rm N \cdot \sin\beta$};
+					\node at (2.2, 4) {$\rm N \cdot \cos\beta$};
+				}
+				\end{axis}
+			\end{tikzpicture}
+		}
+		\caption{Graphical representation of the Free-Body diagram of a sloped curve}
+		\label{graph:Free-body diagram}
+	\end{figure}
+	
+	In this banked curve, the gravitational vector gets canceled out with the vertical component of the normal force, $mg = N \cdot \cos\beta$. Therefore, the centripetal force consists only of the horizontal component of the normal force, $N \cdot \sin\beta$. With these two formulas, we can easily calculate the inwards force exerted on the object and, therefore, the centripetal acceleration.
+	
+	When in a roller coaster, the track is usually responsible for the rotating motion, so this horizontal component is not necessary. This is the case of the flat turns found in Wild Mouse roller coasters. Steeper curves allow for soft changes in forces and higher speeds with less risks.
+	
+	\newpage
+	
+	\subsubsection{Animation}
+	This animation was quite easy to make, I just had to make time proportional to the angle traversed through the frames. This animation respected both the conservation of energy and the actual shape. I obtained the expected result. When rendering, I opted for having the camera above the circle to better illustrate the shape.
+	
+	\LinkToAnimation{Curve}{curve}
+	
+	\cleardoublepage
+	
+	\subsection{Camelback (Parabola)}
+	Roller coasters often feature a section called camelbacks. These are just hills and valleys that resemble a parabola. A camelback is designed to lift riders out of their seats and provide a feeling of weightlessness, commonly known as \textit{airtime}, produced by the negative G-forces. Some roller coasters are basically a series of camelbacks, built with huge steel structures that can reach impressive heights.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[axis lines = left, xlabel = \(x\), ylabel = {\(f(x)\)}]{
+				\addplot{x^2};
+			}
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Graphical representation of the Parabola}
+		\label{graph:Parabola}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.4\textwidth]{Fotos roller coasters/Parabola.jpg}
+		\caption{Parabola in a Roller Coaster}
+		\label{fig:parabola}
+		\source{WYFF4}
+	\end{figure}
+
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=.4\textwidth]{Fotos roller coasters/Shambhala_theming_small.jpg}
+	\caption{Parabola at the Shambhala Roller Coaster, Port Aventura, Tarragona}
+	\label{fig:parabola2}
+	\source{By Sotti - Own work, CC0, https://commons.wikimedia.org/}
+	\end{figure}
+	
+	\subsubsection{Equation}
+	To generalize, I'm going to consider that the camelback shape is produced by a perfect parabola. The static \textbf{parabola} is defined by the quadratic equation, which is as follows (with $a$, $b$ and $c$ constants):
+		
+	$$y = ax^2 + bx + c$$
+	
+	To simplify, we are going to consider the vertex of the parabola (the point where the parabola changes its direction), as the origin of coordinates ($0, 0$). This means that we can neglect the terms $bx + c$, and only take into consideration $y = ax^2$. Also note how the parabola is placed vertically, but I am going to use the letters $x$ and $y$ for the coordinate system as it is most used in mathematics when working with two-dimensional shapes.
+	
+	Notice how the variable $a$ can be either positive or negative. The minus symbol allows for the parabola to make a hill. If $a$ were positive, the parabola would form a valley-like shape, which would be located in between two camelbacks. Also note how the G-forces that result at the top and bottom of camelbacks also have opposite symbols.
+	
+	In a free parabolic throw, the horizontal component remains constant (without acceleration), while the vertical component accelerates at a constant rate. This is due to the lack of forces horizontally and gravity being the only force vertically. Using Newton's second law ($\vec{F} = \dfrac{d\vec{p}}{dt}$, where $\vec{p} = m \vec{v}$), we know that $\sum \vec{F} = m \cdot \vec{a}$, where $\sum F$ is the sum of forces, $m$ is the mass and $a$ is the acceleration. As the only force is gravity, the sum of forces equals the weight: $\sum F = W$, which leads us to $m \cdot a = W = m \cdot g$, which means that $a = g = -9.8 m/s^2$. Mathematically, this behavior can be described by the following quadratic equations:
+	
+	$$\vec{r} = \left\{\begin{array}{l} r_x (t) = (v_x)_0 \cdot t + x_0 \cr r_y (t) = \dfrac{a \cdot t^2}{2} + (v_y)_0 \cdot t + y_0 \end{array}\right.$$
+	
+	Derivating these ones results in the formulas for the velocity components:
+	
+	$$\vec{v} = \left\{\begin{array}{l} v_x (t) = (v_x)_0 \cr v_y (t) = a \cdot t + (v_y)_0 \end{array}\right.$$
+	
+	Derivating them again we get the acceleration:
+	
+	$$\vec{a} = \left\{\begin{array}{l} a_x (t) = 0 \cr a_y (t) = a \quad (\text{constant}) \end{array}\right.$$
+	
+	Despite this, our parabola is produced by the force of the tracks, so the parabola doesn't follow a free trajectory, which is why the speed at its maximum height doesn't equal zero as it would in a free throw. In fact, due to the changes in the weight of the vehicle at each ride, the force of friction produces slight changes in the speed at the top of the camelback, so it wouldn't be certain whether the object would continue or if it would fall back. This is why roller coasters have a margin of speed, so that the object always continues forward.
+	
+	To solve this, we are going to use the change in the slope of the parabola. We know that the derivative of a function is equal to the slope of the tangent line in that point: $\ds f'(x) = p = \tan \beta$. This implies that $\ds x = \frac{\tan \beta}{2a}$
+	
+	$$\left\{\begin{array}{l} f(x) = ax^2 \cr f(y) = y \end{array}\right.$$
+	
+	Next, we are going to use vectorial projection. To find the tangent vector, we are going to use the slope to figure out how much the vehicle advances vertically when moved one unit horizontally: $\vec{u} = \left(1, f'(x)\right) = \left(1, 2 \cdot a \cdot x\right)$. This gives us the tangent vector at the point $\left(x, f(x)\right) = \left(x, a \cdot x^2\right)$ on the shape. We are also going to consider the gravitational force as a vector with the following components: $\vec{g} = \left(g, 0\right)$.
+	
+	We need to project the force of gravity to the tangent of the parabola to know the total acceleration as the perpendicular component of the gravitational pull gets canceled with the force of the track. The scalar product allows us to establish that relation without the need of the slope angle. The formula for the scalar product is $\vec{u} \cdot \vec{g} = \|\vec{u}\| \cdot \|\vec{g}\| \cdot \cos(\sigma)$ (with $\sigma$ the angle formed between $\vec{u}$ and $\vec{g}$). Notice how $\|\vec{g}\| \cdot \cos(\sigma)$ is the projection of $\vec{g}$ in the direction of $\vec{u}$. This gives us the component of the gravity that doesn't cancel out with the normal force. If $\vec{u}$ were a unitary vector, meaning that $\|\vec{u}\| = 1$, the scalar product of the two vectors would equal the projection of $\vec{g}$ to the tangent component of the parabola. To get the unit vector, we have to divide the vector by its modulus: $\ds \hat{u} = \frac{\vec{u}}{\|\vec{u}\|}$
+	
+	$$\|\vec{a}\| = \|\vec{g}\| \cdot \cos(\sigma) = \frac{\vec{u} \cdot \vec{g}}{\|\vec{u}\|} = \frac{\left(1, 2ax\right)}{\sqrt{1 + 4a^2x^2}} \cdot \frac{2axg}{\sqrt{1 + 4a^2x^2}} = \frac{\left(2axg, 4a^2x^2g\right)}{1 + 4a^2x^2}$$
+	
+	Knowing that $\|\vec{a}\| = (\ddot{x}, \ddot{y})$, we can split the equation above into its two components:
+	
+	$$\ddot{r}(t) = \left\{\begin{array}{l} \ds \ddot{x}(t) = \frac{2ax(t)g}{1 + 4a^2x^2(t)} \cr \ds \ddot{y}(t) = \frac{4ay(t)g}{1 + 4ay(t)} \end{array}\right.$$
+	
+	This total acceleration is tangent to the parabolic shape at all times. This set of differential equations will allow us to isolate $\ddot y(t)$ and consequently $y(t)$. As we know that $y = ax^2$, if we solve the differential equation for one of the variables, we will get the other one easily. We will solve for $\ddot y$ as we have already been working on the $y$-axis.
+	
+	To do this, Euler's method can be used to obtain a series of discretized solutions.
+	
+	$$\left\{\begin{array}{l} \ds \dot v = \frac{2axg}{1 + 4a^2x^2} \cr \dot x = v(x) \end{array}\right.$$
+	
+	This way, we can calculate the velocity and position using the previous position and speed. The smaller we make the increments of $t$, the more accurate the animation will be.
+	
+	$$\boxed{\vec{r} = \left\{\begin{array}{l} \ds x_{n+1} = x_n + v(x_n) \cdot \Delta t \cr \ds y_{n+1} = y_n + v(y_n) \cdot \Delta t \cr \ds v(x_n) = \frac{2ax_ng}{1 + 4a^2x^2_n} \cr \ds v(y_n) = \frac{4ay_ng}{1 + 4ay_n} \end{array}\right.}$$
+	
+	I could have written $y$ as a function of $x$, but I opted to calculate each one on their own to maintain the conservation of energy even though the object will slightly shift from the parabolic shape.
+	
+	\newpage
+	
+	\subsubsection*{Brachistochrone curve}
+	Sometimes, roller coaster manufacturers use a brachistochrone curve instead of a parabolic one. It is the fastest curve on the vertical plane (with loss of height) as it optimizes the velocity gained from the gravitational force initially and converting it into kinetic\footnote{In fact, the word Brachistochrone comes from Ancient Greek and it translates to \quote{shortest time}.}. For the roller coaster industry, this means that the rides are shorter while gaining a lot of speed. Usually, a brachistochrone curve is used mainly on really wide curves with slow drops. Steeper drops may likely feature the parabolic curve. The brachistochrone curve is formed by the inversion of the cycloid curve, which is formed by analyzing the path of a point at the exterior of a smooth circumference as it rolls over a plane.
+	
+	The formula for the cycloid curve is as follows:
+	
+	$$\ds \vec{r} = \left\{\begin{array}{l} x = R \cdot (\phi - \sin\phi) \cr y = R \cdot (1 - \cos(\phi)) \end{array}\right.$$
+	
+	\hr
+
+	\subsubsection{Resulting forces}
+	The resulting forces are all produced by the change in direction. The normal force is equal to the normal component of the weight. If the normal force and the weight were to produce a 90-degree angle, the object would fall freely, as the normal force would equal zero. Therefore, the normal force is never bigger than the weight and they are only equal to each other when they are opposite from each other.
+	
+	When the vehicle in the roller coaster descends, the weight force favors the direction of movement and the velocity increases. The tangent component of the weight, which points downwards, is the only force left so the rider feels lighter than normally.
+	
+	At the lowest point of the shape, the weight gets canceled out with the normal force, but the change in direction produces the inertia to push the vehicle down. This is one of the moments of most extreme forces and the rider feels then a lot heavier than usual.
+	
+	Lastly, during the ascend, the direction of movement is opposite to the tangent component of the weight (the normal component gets canceled out again) and the rider feels heavier than usual as he/she gets pulled in the direction of the track. Although it's portrayed in the animation, roller coasters don't usually stop at the middle of the ride unless they change direction\footnote{This is the case of roller coasters which go backwards for a section of the ride. An example of this is Raik at Phantasialand, Germany or Stunt Fall at Parque Warner Madrid, Spain.}, and generally it is a controlled stop, not simply the action of the friction or weight. Theoretically, it would be a sensation opposite to that produced at the vertex of the parabola, resulting in a sensation of weightlessness (also called airtime). Instead of going back, a lot of roller coasters feature another parabolic shape right after finishing the one before, and the rider can feel some airtime at the highest point.
+	
+	\subsubsection{Animation}
+	To make this animation more visual, I decided to add a simple parabolic shape that shows where the ball is going through instead of drawing a path. Although the object goes slightly out of the shape, the conservation of energy principle is preserved, and the ball does therefore have the correct speed relative to the position at each moment.
+	
+	\LinkToAnimation{Parabola}{camelback}
+	
+	\cleardoublepage
+	
+	\subsection{Catenary}
+	The catenary curve is the curve formed by a \textbf{uniform thread} that is hanging from two points. A thread being uniform means that its density and diameter are equal at all its points.
+	
+	In modern roller coasters, the catenary isn't used often, as the change in steepness isn't as smooth as in a parabola. Some Top Hat roller coasters (as seen in figure \ref{fig:Catenary}) feature a shape that resembles the catenary. Despite this, the main uses of catenaries are architecture and in zip lines.
+	
+	In architecture, we can see a clear example of the usage of the catenary in the Sagrada Família by Gaudí. He built the model at a smaller scale upside down using hanging threads of different lengths.
+	
+	Zip lines are attractions in which the rider holds on to a small seat tied to the thread. Then, the rider coasts through the zip line until the breaks turn on and the rider is caught at the end by a net. An example of this is El Vol de l'Àliga (in Campdevànol, Girona), which is 270 meters long and has a 40-meter height difference.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[axis lines = left, xlabel = \(x\), ylabel = {\(f(x)\)}, xmin = -5, xmax = 5, ymin = 0, ymax = 20]{
+				\addplot{cosh(x)};
+			}
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Graphical representation of a Catenary}
+		\label{graph:Catenary}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.07]{Fotos roller coasters/Red force catenary.jpg}
+		\caption{Red Force Catenary at Ferrari Land (Port Aventura)}
+		\label{fig:Catenary}
+		\source{PA community}
+	\end{figure}
+	
+	\subsubsection{Equation}
+	We know that the equation for the catenary is the following:
+	
+	$$\ds f(x) = a \cdot \cosh{\left(\frac{x}{a}\right)} = \frac{a}{2} \cdot \left(e^{\frac{x}{a}} + e^{-\frac{x}{a}}\right)$$
+	
+	Firstly, we are going to use Newton's Second Law to determine the vertical acceleration of the vehicle.
+	
+	$$\sum F = m \cdot a \implies a = g \cdot \cos^2\beta$$
+	
+	We can easily find the derivative of the function by using the chain rule with the substitution $y = \cosh u$ and $\ds u = \frac{x}{a}$:
+	
+	$$f'(x) = a \cdot \frac{d}{dx} \cosh{\left(\frac{x}{a}\right)} = a \cdot \left(\frac{dy}{du}\right) \cdot \left(\frac{du}{dx}\right) = \frac{\cancel{a}}{\cancel{a}} \sinh{\left(u\right)} = \sinh{\left(\frac{x}{a}\right)}$$
+	
+	Using the formula explained above, we obtain the following non-linear differential equation:
+	
+	$$\vec{a} = \left(\frac{g \cdot f'(x)}{1 + f'^2(x)}, \frac{g \cdot f'(x)}{1 + f'^2(x)}\right) = \left(\frac{g \cdot \sinh{\left(\frac{x}{a}\right)}}{1 + \sinh^2{\left(\frac{x}{a}\right)}}, \frac{g \cdot \sinh^2{\left(\frac{x}{a}\right)}}{1 + \sinh^2{\left(\frac{x}{a}\right)}}\right)$$
+	
+	Euler's method tells us that we can express this equation as:
+	
+	$$\begin{array}{ll}
+		\vec{r}_x &= \left\{\begin{array}{ll}
+			\ds \dot v_x &= \frac{g \cdot f'(x)}{1 + f'(x)} \cr
+			\ds \dot x &= v_x
+		\end{array}\right. \cr \cr
+		\vec{r}_y &= \left\{\begin{array}{ll}
+			\ds \dot v_y &= \frac{g \cdot f'(x)}{1 + f'(x)} \cr
+			\ds \dot y &= v_y
+		\end{array}\right.
+	\end{array}$$
+
+	If we add the derivative and integrate with respect to time, we obtain the formula (we are going to consider the constants to be the previous velocities and positions):
+	
+	$$\boxed{\vec{r}_{n + 1} = 
+	\left\{\begin{array}{ll}
+		(r_x)_{n + 1} &=
+		\left\{\begin{array}{ll}
+			\ds (v_x)_{n + 1} &= \dfrac{g \cdot \sinh{\left(\frac{x}{a}\right)}}{1 + \sinh^2{\left(\frac{x}{a}\right)}} \cdot \Delta t + (v_x)_n \cr
+			\ds x_{n + 1} &= (v_x)_n \cdot \Delta t + x_n
+		\end{array}\right. \cr \cr
+		(r_y)_{n + 1} &=
+		\left\{\begin{array}{ll}
+			\ds (v_y)_{n + 1} &= \dfrac{g \cdot \sinh^2{\left(\frac{x}{a}\right)}}{1 + \sinh^2{\left(\frac{x}{a}\right)}} \cdot \Delta t + (v_y)_n \cr
+			\ds y_{n+1} &= (v_y)_n \cdot \Delta t + y_n
+		\end{array}\right.
+	\end{array}\right.}$$
+
+	This is our final formula for the catenary. Notice how we could also solve the differential equation for only one axis and having a single pair of discretized equations. This would result in a more accurate animation in terms of the mathematical shape, but I have opted for using discretized equations on both axes to maintain the conservation of energy principle.
+	
+	\subsubsection{Resulting forces}
+	The resulting forces applied on the track are almost identical to the parabola, but the rate of change is not as constant, as the first derivative is a hyperbolic function, not a linear one. As we are considering the mass to be constant, by Newton's second Law:
+	
+	$$\sum \vec{F} = m \cdot \vec{a}$$
+	
+	As the force and the acceleration are proportional to each other, the graphical representation of the acceleration is the same as the graphical representation of the resulting net force but scaled accordingly to the mass. To simplify, we are going to consider a test object that has mass $1$. Therefore, the representation of the forces would be the second derivative.
+	
+	$$f(x) = a \cdot \cosh\left(\frac{x}{a}\right) \implies f'(x) = \sinh\left(\frac{x}{a}\right) \implies f''(x) = \frac{1}{a} \cdot \cosh\left(\frac{x}{a}\right)$$
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[axis lines = left, xlabel = \(x\), ylabel = {\(f''(x)\)}, xmin = -5, xmax = 5, ymin = 0, ymax = 20]{
+				\addplot{cosh(x)};
+			}
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Graphical representation of the forces of a Catenary}
+		\label{graph:CatenaryForces}
+	\end{figure}
+	
+	\subsubsection{Animation}
+	Similarly to the parabola, the animation for the catenary worked well, although there is a bigger shift in the precision of the animation. This has been solved by decreasing the step size and therefore increasing the precision.
+	
+	\LinkToAnimation{Catenary}{catenary}
+	
+	\cleardoublepage
+	
+	\section{Parameterized Elements}
+	
+	\subsection{Helix}
+	A helix is a type of curve in the three-dimensional space. It is characterized by the fact that the tangent line at any point makes a constant angle with the horizontal axis. Because of the force of gravity, every object that is going through the helix is supposed to increase speed on the downwards axis. As the position is fixed by the track, we experience a pronounced increase in the tangential speed instead.
+	
+	Helices aren’t common on roller coasters, and they aren’t a specially thrilling or exciting element. This is because helices tend to have small changes in G-forces, which makes them unexciting, but it also means that they can be used to easily connect most of the other figures. This is the case of short ascending or descending helices, which are often used to connect two near pieces of track that are at a relatively close height. On the other hand, long ascending helices are used as a replacement for the chain lift hill in small roller coasters.
+	
+	As the helix isn't a complicated element to build and doesn't involve much danger, older roller coasters feature this element more often in conjunction with flat turns. Similarly, some water attractions may also include these sections, as the increase of speed is much more noticeable since it starts with a very low speed and aren't strapped to a wagon, which means that the rider is thrown to the sides of the tube.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[view = {60}{30}, xlabel = $x(t)$, ylabel = $y(t)$, zlabel = $z(t)$, xlabel style = {sloped like x axis}, ylabel style = {sloped like y axis}]{
+				\addplot3[domain = 0:5*pi, samples = 60, samples y = 0]
+				({sin(deg(x))}, {cos(deg(x))}, {x});
+			}
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Graphical representation of a Helix}
+		\label{graph:Helix}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=.2]{Fotos roller coasters/Toboggan Helix.jpg}
+		\caption{Toboggan roller coaster at Hersheypark}
+		\label{fig:Toboggan Helix}
+		\source{by Myselfalso, CC-BY-SA (2012)}
+	\end{figure}
+
+	\begin{figure}[H]
+	\centering
+	\includegraphics[scale=.2]{Fotos roller coasters/Helix - Python_small.jpg}
+	\caption{Helix at the Python roller coaster, Efteling}
+	\label{fig:Python Helix Roller Coaster}
+	\source{By Arnau del Río, CC BY-SA 3.0 (2022)}
+	\end{figure}
+	
+	\subsubsection{Equation}
+	The static helix with respect to the rotation from above (as used in the chart \ref{graph:Helix}) can be defined by the following parametric equations, where $R$ is the radius, $\theta$ is the angle (seen from above) and $p$ represents the inclination of the helix and is measured as a proportion between the vertical and horizontal movement:
+	
+	$$\vec{r}(\theta) = \left\{\begin{array}{l} x(\theta) = R \cdot \cos(\theta) \cr y(\theta) = R \cdot \sin(\theta) \cr z(\theta) = -p \cdot \theta \end{array}\right.$$
+	
+	This means that the helix has a circular shape when it is observed from above. Notice how this equation is written as $\vec{r}(\theta)$, so we cannot know the velocity just by taking the derivative directly, as we know that the velocity varies with time. Therefore, our goal is to rewrite this equation as a function with respect to time. Additionally, we know that $\theta$ also changes with time, which means that the equation from above could also be written as $\vec{r}(\theta(t))$, which will allow us to figure out the formula. A perfect helix has a constant radius and slope, so the only thing that varies with time is the angle.
+	
+	As we only take into consideration two forces, the force of gravity and the force of the tracks that allows for the object to stay in its path (the normal force), we will take a closer look only to the vertical component of the equation above. As of now, the equation for the vertical component is written as $z$ of $\theta$ ($z(\theta(t))$), but we want it to be $z$ of $t$ ($z(t)$).
+	
+	First, we can express the slope using trigonometry considering that $\beta$ is the angle formed between line tangent to the slope and the vertical axis:
+	
+	$$\ds \tan \beta = \frac{R \Delta \theta}{\Delta z} = \frac{-R}{\left(\frac{\Delta z}{\Delta \theta}\right)} = \frac{-R}{p}$$
+	
+	Now we can take into account that the vertical acceleration is constant. This means that we know that the tangent acceleration is equal to the gravity times the cosine of the angle:
+	
+	$\|\vec{a}_T\| = k = g \cdot \cos{\beta}$
+	
+	By the same rule, the vertical acceleration is the tangent acceleration times the cosine of the angle.
+	
+	$$\|\vec{a}_Z\| = \|\vec{a}_T\| \cdot \cos{\beta} = g \cdot \cos^2{\beta}$$
+	
+	We also know the following: $\ds a_Z = \frac{d^2 z(\theta(t))}{dt^2} = \ddot z (\theta)$, but our equation is currently $z(\theta)$, not $z(t)$. To solve this, we can multiply and divide the fraction by $d\theta$: $\ds \frac{dz(\theta)}{dt} = \frac{dz(\theta)}{d\theta} \cdot \frac{d\theta}{dt} = \frac{dz(\theta)}{d\theta} \cdot \dot\beta(t)$
+	
+	We can use the chain rule to derivate our formula, which results in: 
+	
+	$$\ds \frac{d^2 z(\theta(t))}{dt^2} = \underset{0}{\underbrace{\cancel{\frac{d^2 z(\theta)}{d\theta^2} \cdot \dot\theta^2(t)}}} + \underset{-p}{\underbrace{\frac{dz(\theta)}{d\theta}}} \cdot \ddot\theta(t) = -p \cdot \ddot\theta(t)$$
+	
+	We know that the second derivative of $z$ is equal to $\|a_Z\|$. Adding this to the equation we obtained above, we get: $-p \cdot \ddot\theta(t) = g \cdot \cos^2(\beta)$, which is a second-degree differential equation.
+	
+	Now we will simplify $\cos^2(\beta)$ in terms of other constant variables (this step isn't strictly necessary, but it allows for a clearer solution because our original equation also had the $p$ as a slope, so $\beta$ would depend on $p$ anyway).
+	
+	We will start using an expression we found before: $\ds \tan(\beta) = - \frac{R}{p}$ $\ds \frac{\sin\beta}{\cos(\beta)} = - \frac{R}{p}$
+	
+	We also know that: $\cos^2(\beta) + \sin^2(\beta) = 1$. As $\sin(\beta) = \sqrt{1 - \cos^2\beta}$, we can replace it in the formula above: $\ds \cos(\beta) = - \frac{p}{R} \cdot \sin\beta = - \frac{p}{R} \cdot \sqrt{1 - \cos^2\beta}$
+	
+	$\ds \cos^2\beta \cdot \left(1 + \frac{p^2}{R^2}\right) = \frac{p^2}{R^2}$
+	
+	$\ds \cos^2\beta = \frac{p^2}{R^2 + p^2}$
+	
+	When we then substitute this above, we get the following differential equation: 
+	
+	$$\ds \ddot\theta(t) = - \frac{g \cdot p}{\left(R^2 + p^2 \right)}$$
+	
+	Lastly, we integrate the expression with respect to time to obtain the speed:
+	
+	$$\ds \dot\theta(t) = \frac{-g \cdot p}{R^2 + p^2} \cdot t + C_1$$
+	
+	And yet again to obtain the position:
+	
+	$$\ds \theta(t) = \frac{-g \cdot p}{2R^2 + 2p^2} \cdot t^2 + C_1t + C_2$$
+	
+	Here we can see that two constant of integration appear. They indicate the initial velocity and height ($C_1$ and $C_2$, respectively) of the object.
+	
+	$$\ds \boxed{\boxed{\theta(t) = \frac{-g \cdot p}{2R^2 + 2p^2} \cdot t^2 + v_0t + z_0}}$$
+	
+	If we substitute this in our original formula, we obtain:
+	
+	$$\boxed{\ds \vec{r} = \left\{\begin{array}{l}
+			\ds x(t) = R \cdot \cos\left(\frac{-g \cdot p}{2R^2 + 2p^2} \cdot t^2 + v_0 t + z_0\right) \cr
+			\ds y(t) = R \cdot \sin\left(\frac{-g \cdot p}{2R^2 + 2p^2} \cdot t^2 + v_0 t + z_0\right) \cr
+			\ds z(t) = - p \cdot \left(\frac{-g \cdot p}{2R^2 + 2p^2} \cdot t^2 + v_0 t + z_0\right)
+		\end{array}\right.}$$
+	
+	In this last formula, $R$ is the radius, $g$ is the force of gravity ($-9.8 m/s^2$ on the surface of the Earth), $p$ is the inclination, $t$ is time, $v_0$ is the initial velocity and $z_0$, is the initial height.
+	
+	\subsubsection{Resulting forces}
+	The helix is an easy shape in terms of the resulting forces as it is symmetric circularly. Firstly, there's obviously gravity, which produces the downwards acceleration. The centripetal force required to stay in the circular motion is produced by the component of the normal force which is perpendicular to the track. This normal force is also responsible for avoiding a free fall. As the weight doesn't fully cancel out, there is a small acceleration applied which means that the velocity increases while the object loses height (which respects the conservation of mechanical energy principle).
+	
+	To reduce the strain on the track, helices tend to tilt inward to reduce the horizontal forces presented to the track by canceling them out with the normal force.
+	
+	The centripetal acceleration depends on the velocity by the expression:
+	
+	$$a_c = \frac{v^2}{r}$$
+	
+	This means that, as the velocity is increasing along the helix, the vehicle gains centripetal acceleration, which implies that the centripetal force increases proportionally. This increase in the normal force is perceptible to the rider, as it may feel like the vehicle is launched away.
+	
+	In this formula, we can also see that the radius of the helix is also involved. The wider the helix, the less force ends up being exerted on the vehicle.
+	
+	\subsubsection{Animation}
+	The animation was produced using the formula above. Here are three snapshots of the animation seen form the side at the frames specified. Note that we can see a increase in speed between the second and third images with respect to the first and second image even though the distance in frames is the same.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{.3\textwidth}
+			\centering
+			\includegraphics[width=.4\textwidth]{Blender Captures/Helix - Lateral - Frame 50.jpg}
+			\caption{Frame 50}
+			\label{fig:sub1}
+		\end{subfigure}%
+		\begin{subfigure}{.3\textwidth}
+			\centering
+			\includegraphics[width=.4\textwidth]{Blender Captures/Helix - Lateral - Frame 150.jpg}
+			\caption{Frame 150}
+			\label{fig:sub2}
+		\end{subfigure}%
+		\begin{subfigure}{.3\textwidth}
+			\centering
+			\includegraphics[width=.4\textwidth]{Blender Captures/Helix - Lateral - Frame 250.jpg}
+			\caption{Frame 250}
+			\label{fig:sub3}
+		\end{subfigure}%
+		\caption{Sideview of the animated Helix (using Blender 3D)}
+		\label{fig:Blender - Hèlix - Lateral}
+	\end{figure}
+	
+	\LinkToAnimation{Helix}{helix}
+	
+	\cleardoublepage
+	
+	\subsection{In-line Twist}
+	In an in-line twist, the track rotates around a central horizontal axis. This axis is usually located inside the track but can also be placed at the center of the riders' bodies, resulting in a \textbf{heartline roll}.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[axis lines = left, plot box ratio = {1}{3}{1}, xmin = -5, xmax = 5, ymin = 10, ymax = 30, zmin = -5, zmax = 5,
+				view={30}{10}]{
+				\addplot3[domain = 10:30, samples = 60, samples y = 0] ({sin(18 * x + 90)}, {x}, {cos(18 * x + 90)});
+				\addplot3[domain = 10:30, samples = 60, samples y = 0] ({sin(18 * x - 90)}, {x}, {cos(18 * x - 90)});
+			}
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Graphical representation of an In-line Twist}
+		\label{graph:In-line twist}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.6\textwidth]{Fotos roller coasters/Furius_Baco_Inline_Twist_small}
+		\caption{In-line Twist of the Furius Baco coaster, Port Aventura}
+		\label{fig:Furius Baco In-line Twist}
+		\source{By PCG44 - Own work, CC BY-SA 4.0}
+	\end{figure}
+	
+	\subsubsection{Equation}
+	The basic formula for the in-line twist is quite similar to the one from the helix. Here, we can see that the variables $y$ and $z$ are swapped, so the vehicle won't always be moving parallel to gravity.
+	
+	$$\vec{r}(t) = \left\{\begin{array}{ll}
+		x(t) &= R \cdot \cos(\theta) \cr
+		y(t) &= k \cdot \theta \cr
+		z(t) &= R \cdot \sin(\theta)
+  	\end{array}\right.$$
+	
+	$x$, $y$ and $z$ represent position in all three axes, the variable $R$ represents the radius of the helix and $\theta$ represents the angle traversed along the helix.
+	
+	As we are going to use the unitary vector method, I'm going to analytically calculate the first and second derivative of the function above:
+	
+	$\vec{r}'(t) = \left\{\begin{array}{ll}
+		x'(t) &= - R \cdot \sin(\theta) \cr
+		y'(t) &= k \cr
+		z'(t) &= R \cdot \cos(\theta)
+	\end{array}\right.$
+	
+	$\vec{r}''(t) = \left\{\begin{array}{ll}
+		x''(t) &= - R \cdot \cos(\theta) \cr
+		y''(t) &= 0 \cr
+		z''(t) &= - R \cdot \sin(\theta)
+	\end{array}\right.$
+	
+	Firstly, we are going to find the total acceleration. As $\vec{a}$ is also the second time derivative of $\vec{r}(\theta)$, By using the chain rule, we know that
+	$\vec{a} = \vec{r}''(\theta) \cdot \dot{\theta}^2 + \vec{r}'(\theta) \cdot \ddot{\theta}$.
+	
+	We also know that the vectors for $\vec{r}'$ and $\vec{r}''$ are orthogonal, which we know because, by the Pythagorean theorem, the modulus of $r'(\theta)$ is:
+	
+	$$\sqrt{R^2 \cdot \sin^2(\theta) + k^2 + R^2 \cdot \cos^2(\theta)} = \sqrt{R^2 + k^2}$$
+	
+	We know that both $R$ and $k$ are constants. Therefore the object doesn't increase the modulus of its derivative. As the object changes direction, it must have some acceleration which has to be at a right angle from the velocity. This means that we can affirm that $\cos(\sigma) = 0$. Consequently, $(\vec{r}''(\theta) \cdot \vec{r}'(\theta)) = 0$, which is proven using the dot product between two vectors:
+	
+	$$\vec{r}''(\theta) \cdot \vec{r}'(\theta) = \|\vec{r}''\| \cdot \|\vec{r}'\| \cdot \cos(\sigma) = 0$$
+	
+	Now we can use this formula to simplify the expression for the chain rule by multiplying it by $\vec{r}'(\theta)$.
+	
+	$$\vec{a} \cdot \vec{r}'(\theta) = \underset{0}{\underbrace{\vec{r}''(\theta) \cdot \vec{r}'(\theta) \cdot \dot{\theta}^2(t)}} + \vec{r}'(\theta)^2 \cdot \ddot{\theta}(t)$$
+	
+	This becomes:
+	
+	$$\boxed{(\vec{a} \cdot \vec{r}'(\theta))= \vec{r}'^2(\theta) \cdot \ddot{\theta}(t)}$$
+	
+	Now, we are going to find another expression that will help us in solving this equation. We know that 
+	
+	$$(\vec{g} \cdot \vec{r}'(\theta)) = (0, 0, g) \cdot (- R \sin(\theta), k, R \cos(\theta)) = g \cdot R \cdot \cos(\theta)$$
+	
+	As we know that the total acceleration produced in the tangential direction is the same as the projection of gravity over that tangent. Therefore, $\vec{a} \cdot \vec{r}'(\theta) = \vec{g} \cdot \vec{r}'(\theta)$. If we use this with the formulas we have obtained until now, we get the equality:
+	
+	$$\vec{r}'^2(\theta) \cdot \ddot{\theta}(t) = g \cdot R\cdot\cos(\theta)$$
+	
+	Using the Pythagorean theorem, we know that $\vec{r}'^2(\theta) = R^2 + k^2$, this results in the following second-order differential equation:
+	
+	$$\ddot\theta = \frac{g \cdot R \cdot \cos(\theta)}{R^2 + k^2}$$
+	
+	To solve this equation, we can apply Euler's method for the angle of rotation $\theta$. Then we can finally add the initial vector for position, which will now return a position at a certain moment in time.
+	
+	$$\boxed{\vec{r} = \left\{\begin{array}{ll}
+			\theta \hfill =& \left\{\begin{array}{ll}
+				\ddot{\theta}_n &= \ds \frac{g \cdot R \cdot \cos(\theta_n)}{R^2 \cdot k^2} \cr
+				\dot{\theta}_{n + 1} &= \ddot{\theta}_n \cdot \Delta t + \dot{\theta}_n \cr
+				\theta_{n + 1} &= \dot{\theta}_n \cdot \Delta t + \theta_n
+			\end{array}\right. \cr
+			r_x \longrightarrow & x_{n + 1} = R \cdot \cos(\theta_n) \cr
+			r_y \longrightarrow & y_{n + 1} = k \cdot \theta_n \cr
+			r_z \longrightarrow & z_{n + 1} = R \cdot \sin(\theta_n) \cr
+		\end{array}\right.}$$
+
+	\subsubsection{Resulting forces}
+	Before entering the in-line twist, the object is completely vertical, which means that the weight and the normal force cancel out. Then, as the object starts the in-line twist, the normal force (which is always perpendicular to the track) gains a horizontal component and the object and the weight doesn't get canceled out, which means that the object's center of mass slowly starts to lose height, which gets transformed into velocity.
+	
+	As it starts going around the twist, the vehicle gains acceleration until it has gone a quarter of the rotation. At that point, the weight and the normal force are completely perpendicular. Then, the acceleration starts to decrease, although the velocity is still increasing.
+	
+	At the bottom of the twist, the centripetal acceleration equals to zero and changes sign, which means that the velocity starts to decrease.
+	
+	While the object is going up, the vehicle is slowed down due to the gravitational pull, until it's standing vertically again. During this ascend, the acceleration also increases and decreases due to the change in the angle formed with the normal force.
+	
+	When the vehicle is back up, it has returned to its initial speed. This is because all forces are conservative, and the mechanical energy of the vehicle is constant.
+	
+	The formula for the mechanical energy $\Delta E_M = 0$, which means that the amount of energy cannot vary, only it's function (potential or kinetic).
+	
+	\subsubsection{Animation}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{.3\textwidth}
+			\centering
+			\includegraphics[width=.8\textwidth]{Blender Captures/Twist - X-Axis - Frame 900.jpg}
+			\caption{X-Axis}
+			\label{fig:sub4}
+		\end{subfigure}%
+		\begin{subfigure}{.3\textwidth}
+			\centering
+			\includegraphics[width=.8\textwidth]{Blender Captures/Twist - Y-Axis - Frame 900.jpg}
+			\caption{Y-Axis}
+			\label{fig:sub5}
+		\end{subfigure}%
+		\begin{subfigure}{.3\textwidth}
+			\centering
+			\includegraphics[width=.3\textwidth]{Blender Captures/Twist - Z-Axis - Frame 900.jpg}
+			\caption{Z-Axis}
+			\label{fig:sub6}
+		\end{subfigure}%
+		\caption{Three different views of the animated In-line Twist (using Blender 3D) at the frame 900}
+		\label{fig:Blender - Twist - Lateral}
+	\end{figure}
+	
+	\LinkToAnimation{In-line Twist}{twist}
+	
+	\cleardoublepage
+	
+	\subsection{Vertical Loop (Clothoid)}
+	These are the most common and popular type of inversions. They used to be manufactured in a circular shape, but they currently use an inverted teardrop shaped to reduce the resulting forces during the change in direction. There are several shapes that can produce the necessary damping, according to the objective. There are two properties that can be dampened: the centripetal acceleration and the G-forces.
+	
+	A curve with a constant centripetal acceleration has the following set of discretized equations \cite{PhysicsRollerCoasterLoops}:
+	
+	$$\vec{r} = \left\{\begin{array}{rcl}
+		\theta_{n+1} & = & \theta_n + \frac{C}{\left(\ds \frac{v_0^2}{g} - 2 \cdot y_n\right)} \cdot \Delta s \cr
+		x_{n+1} & = & x_n + \cos(\theta_n) \cdot \Delta s \cr
+		x_{n+1} & = & x_n + \cos(\theta_n) \cdot \Delta s \cr
+	\end{array}\right.$$
+	
+	However, there is still a strong change of the forces at the beginning and at the end of the loop. This is where clothoids appear. Clothoids are usually used to connect two circular objects in a smooth trajectory. In a clothoid, the curvature changes proportionally to the length. A full clothoid is as follows:
+	
+%	\begin{figure}[H]
+%		\centering
+%		\def\Func{sin(x^2)}
+%		\psset{unit=5, algebraic=true, method=rk4, plotpoints=400, linecolor=blue, linewidth=1pt, whichabs=0, whichord=1}
+% 		\begin{pspicture}(-1, -1)(1, 1)
+%			\psgrid[subgriddiv=5](-1,-1)(1,1)
+%			\multido{\r=-1.5+1.5}{3}{%
+%				\psplotDiffEqn{0}{30}{\r\space -3}{\Func}
+%				\psplotDiffEqn{0}{30}{\r\space 3}{\Func}} 			\psplotDiffEqn[whichabs=0, whichord=1]{0}{30}{0.01 0.01}{\Func}
+%		\end{pspicture}
+%		\caption{Graphical Representation of the Vertical Loop}
+%		\label{graph:Vertical Loop}
+%	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=.2]{Fotos roller coasters/Blue fire looping.jpg}
+		\caption{Vertical Loop of the Blue Fire Megacoaster, Europa Park}
+		\label{fig:Blue Fire Vertical Loop}
+		\source{By Arnau del Río, CC BY-SA 3.0 (2022)}
+	\end{figure}
+	
+	\subsubsection{Equation}
+	We can use a piece-wise function to define a loop as two opposite clothoids, with a semicircle between them.
+	
+	Firstly, we will analyze the clothoid curve. In a \textbf{clothoid}, the radius of curvature is indirectly proportional to the arc traversed ($s \cdot R = k$). These are used because they minimize the forces that are applied. The formula for the clothoid curve is written using the Fresnel Integrals:
+	
+	$$\vec{r}(\theta) = \left\{\begin{array}{ll} C(\theta) &= \ds \intop_0^\theta{\cos{\lambda^2}} \ d\lambda \cr S(\theta) &= \ds \intop_0^\theta{\sin{\lambda^2}} \ d\lambda \end {array}\right.$$
+	
+	This integral cannot be derivated directly as the variable of integration is one of the limits, so we need to use Leibniz's integration rule, which states that:
+	
+	$$\begin{array}{rl}
+		\ds \frac{d}{dx} \left(\int_{a(x)}^{b(x)} f(x, \lambda)\ d\lambda\right) =& \ds f(x, b(x)) \cdot \frac{d}{dx}b(x) \cr
+		& \ds - f(x, a(x)) \cdot \frac{d}{dx}a(x) \cr
+		& \ds + \int_{a(x)}^{b(x)} \frac{\partial}{\partial x}f(x, \lambda)\ d\lambda
+	\end{array}$$
+
+	Substituting results in the following:
+	
+	$$\begin{array}{rl}
+		\ds \frac{d}{dx} \left(\int_{0}^{\theta} \cos(\lambda^2)\ d\lambda\right) =& \ds \cos(\theta^2) \cdot \cancelto{1}{\frac{d}{dx}\theta} \cr
+		& \ds - \cancelto{0}{\cos(0^2) \cdot \frac{d}{dx}a(x)} \cr
+		& \ds + \cancelto{0}{\int_{a(x)}^{b(x)} \frac{\partial}{\partial x} \cos(\theta^2) \ d\lambda}
+	\end{array}$$
+	
+	Doing the same with the vertical axis, we now know that the derivative of the clothoid function is:
+	
+	$$r'(\theta) = \left\{\begin{array}{ll} C'(\theta) &= \cos(\theta^2) \cr S'(\theta) &= \sin(\theta^2) \end{array}\right.$$
+	
+	This can be derivated again easily by using substitution:
+	
+	$$r''(\theta) = \left\{\begin{array}{ll} C''(\theta) = - 2 \cdot \theta \cdot \sin(\theta^2) \cr S''(\theta) = 2 \cdot \theta \cdot \cos(\theta^2) \end{array}\right.$$
+
+	Firstly, we are going to find the total acceleration. To do this, we know that $\vec{a} = \ddot{r}(\theta)$. We can use the chain rule to transform this equality into the following:
+	
+	$$\dot{r}(\theta) = \vec{r}'(\theta) \cdot \dot{\theta}(t)$$
+	
+	Now we use the product rule to derivate again with respect to time:
+	
+	$$\vec{a} = \vec{r}''(\theta) \cdot \dot{\theta}^2(t) + \vec{r}'(\theta) \cdot \ddot{\theta}(t)$$
+
+	In the initial formula, $C(\theta)$ and $S(\theta)$ are the corresponding horizontal and vertical positions, which use the abstract parameter $\theta$ as a value at each point.
+
+	We also know that the vectors for $\vec{r}'$ and $\vec{r}''$ are orthogonal because the modulus of $\vec{r}'$ is constant, which means that $\cos(\sigma) = 0$ and consequently, $(\vec{r}''(\theta) \cdot \vec{r}'(\theta)) = 0$. This is proven using the scalar product between two vectors:
+	
+	$$\vec{r}''(\theta) \cdot \vec{r}'(\theta) = \|\vec{r}''\| \cdot \|\vec{r}'\| \cdot \cancelto{0}{\cos 90} = 0$$
+	
+	If we multiply the formula for $\vec{a}$ by $\vec{r}(\theta)$ and using the property that we just described, we then get:
+	
+	$$\vec{a} \cdot \vec{r}'(\theta) = \underset{0}{\underbrace{\vec{r}''(\theta) \cdot \vec{r}'(\theta) \cdot \dot{\theta}^2(t)}} + \vec{r}'(\theta)^2 \cdot \ddot{\theta}(t)$$
+	
+	$$(\vec{a} \cdot \vec{r}'(\theta))= \vec{r}'^2(\theta) \cdot \ddot{\theta}(t)$$
+	
+	If we project the gravitational vector $\vec{g}$ over $\vec{r}'(\theta)$, we get the expression for:
+	
+	$$(\vec{g} \cdot \vec{r}'(\theta)) = (0, g)\cdot(\cos(\theta^2), \sin(\theta^2)) = g \cdot \sin(\theta^2)$$
+	
+	As we know that the total acceleration produced in the tangential direction is the same as the projection of gravity over that tangent. Therefore, $\vec{a} \cdot \vec{r}'(\theta) = \vec{g} \cdot \vec{r}'(\theta)$. If we use this with the formulas we have obtained until now, we get the equality:
+	
+	$$\ddot{\theta}(t) \cdot \vec{r}'^2(\theta) = g \cdot \sin(\theta^2)$$
+	
+	As we know that $\vec{r}'^2(\theta) = \sin^2(\theta^2) + \cos^2(\theta^2) = 1$, this results in the following second-order differential equation:
+	
+	$$\boxed{\ddot\theta = g \cdot \sin(\theta)}$$
+	
+	We can now solve this differential equation numerically by applying Euler's method for the parameter $\theta$.
+	
+	$$\theta = \left\{\begin{array}{ll}
+		\ddot{\theta}_n &= g \cdot \sin(\theta^2_n) \cr
+		\dot{\theta}_{n + 1} &= \ddot{\theta}_n \cdot \Delta t + \dot{\theta}_n \cr
+		\theta_{n + 1} &= \dot{\theta}_n \cdot \Delta t + \theta_n
+	\end{array}\right.$$
+
+	Now we can use this in our original equation to find the position with respect to time, but because the purpose of this is to animate the movement with Python, we have to avoid using integrals\footnote{It is probably possible to use integrals in Python, but I'm going to avoid it because it is not necessary and may be even more complicated than using Euler's method again.}.
+	
+	$$\boxed{\vec{r} = \left\{\begin{array}{ll}
+		\theta &= \left\{\begin{array}{ll}
+			\ddot{\theta}_n &= g \cdot \sin(\theta^2_n) \cr
+			\dot{\theta}_{n + 1} &= \ddot{\theta}_n \cdot \Delta t + \dot{\theta}_n \cr
+			\theta_{n + 1} &= \dot{\theta}_n \cdot \Delta t + \theta_n
+		\end{array}\right. \cr
+		r_x &= \left\{\begin{array}{ll}
+			\dot{x}_{n + 1} &= \cos(\theta^2_n) \cr
+			x_{n + 1} &= \dot{x}_n \cdot \Delta t + x_n
+		\end{array}\right. \cr
+		r_y &= \left\{\begin{array}{ll}
+			\dot{y}_{n + 1} &= \sin(\theta^2_n) \cr
+			y_{n + 1} &= \dot{y}_n \cdot \Delta t + y_n
+		\end{array}\right.
+	\end{array}\right.}$$
+	
+	\subsubsection{Resulting forces}
+	At the beginning of the loop, we have a change of forces and direction of movement. There can be no completely circular loops, as the forces needed for these changes would be too strong. The $G$-forces are going to allow us to analyze the vertical loop.
+	
+	The $G$ forces compare the net force with the gravitational acceleration:
+	
+	$$\ds G = \frac{F}{m \cdot g}$$
+	
+	As a reference, most people can only take $6 G$ for a second. Here is a chart in which we can see how long a roller coaster can apply a certain $G$-force according to the roller coaster safety regulations.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.5\textwidth]{Fotos roller coasters/ASTM standard for G-force.jpg}
+		\caption{ASTM standards for G-force}
+		\label{fig:astm-standard-for-g-force}
+		\source{Research Gate}
+	\end{figure}
+	
+	The use of the clothoid shape allows for a gradual change in the balance between the weight and the normal force to avoid all these extreme changes in the $G$-forces. Thanks to the math involved in the creation of roller coasters, the number of accidents and injuries decreases, which makes for more thrilling and safe rides.
+	
+	When the vehicle arrives to the circular section, the normal force becomes perpendicular to the weight, which means that the acceleration is equal to the force of gravity. At the highest point of the loop, the direction of movement and the gravitational pull have the same direction, so the vehicle starts accelerating again. Since the normal force ends up aligning with the weight again at the end of the loop, we can see that the acceleration decreases. Thus, we have the maximum acceleration at the sides of the loop.
+	
+	\subsubsection{Animation}
+	This animation ended up being the worst one, because, as the static motion is defined by a set of integrals, the shift in Euler's method is clearly perceptible.
+	
+	\LinkToAnimation{Vertical Loop}{loop}
+	
+	\cleardoublepage
+	
+	\subsection{Corkscrew}
+	A corkscrew is a type of inversion that resembles a vertical loop that has been stretched so that the entrance and exit points are a certain distance away from each other. In most roller coasters, the direction in which the corkscrew is entered is parallel to the direction in which the corkscrew is exited. At the moment of inversion, the riders produce a 90-degree angle from the incoming and exiting tracks when seen from above.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.2]{Fotos roller coasters/Cedar Point Corkscrew}
+		\caption{Matterhorn Blitz roller coaster at Europa Park, Germany}
+		\label{fig:CedarPointCorkscrew}
+		\source{By Coasterman1234 at en.wikipedia, CC BY-SA 3.0}
+	\end{figure}
+	
+	\subsubsection{Equation}
+	Now that we have the in-line twist and the vertical loop, we can combine them to form the corkscrew, which I will divide into three segments: the clothoid used to enter, the middle circular section and the clothoid used to exit the corkscrew. Notice that we are also adding a third axis to avoid any type of overlapping that could be produced, as the shape would be impossible otherwise. This is the only figure in which we are actually going to use algebraic and geometric properties to work out the solution to the formula, as we need to know the position at which the curve changes. This could also be done analytically using python, but the explanation would be the same, only the numbers could be scaled proportionally. This is also the reason why I am going to make a lot of assumptions in this element.
+	
+	Firstly, the corkscrew starts with a clothoid shape to accommodate for the change in the radius of curvature. We know that the clothoid section ends once the corkscrew has a perfectly vertical slope, which is a point that we can calculate. Then, the twist section starts, so we need to match the curvature of both sections to fit with each other. To do this, we can take advantage of the circle's constant curvature and the clothoids curvature, which is directly proportional to the arc length. As we have calculated before, the formula for the parameter in the solved clothoid shape is:
+	
+	$$\boxed{\vec{r} = \left\{\begin{array}{ll}
+			\theta &= \left\{\begin{array}{ll}
+				\ddot{\theta}_n &= g \cdot \sin(\theta^2_n) \cr
+				\dot{\theta}_{n + 1} &= \ddot{\theta}_n \cdot \Delta t + \dot{\theta}_n \cr
+				\theta_{n + 1} &= \dot{\theta}_n \cdot \Delta t + \theta_n
+			\end{array}\right.
+		\end{array}\right.}$$
+	
+	To be able to transition smoothly into the next section, we are going to use the variation of the parameter $\theta$ to advance in the $y$-axis. This makes for a more realistic link between the two different shapes.
+	
+	To connect the clothoid with the following section, we are going to have to calculate the point at which the clothoid ends and the circle starts. We can do this easily, because we know that the derivative of the horizontal component of the clothoid at that point is $0$. Thus, we get the following equation:
+	
+	$$\cos(\theta^2) = 0$$
+	
+	Solving this trigonometric equation gives us an unlimited number of solutions, but we'll keep the one that's closest to zero and is positive, as that will be the first time that the clothoid changes direction on the horizontal axis.
+	
+	$$\theta = \sqrt{\arccos(0)} = \sqrt{\frac{\pi}{2}}$$
+	
+	As we now know the arc length, we can now calculate the point at which the curve changes. We're going to call this point $P_1$.
+	
+	$$P_1 = \vec{r}\left(\sqrt{\frac{\pi}{2}}\right) = \left\{\begin{array}{ll} \ds x\left(\sqrt{\frac{\pi}{2}}\right) &= \ds \intop_0^{\sqrt{\frac{\pi}{2}}}{\cos{\lambda^2}} \ d\lambda \cr y = 0 \cr \ds z\left(\sqrt{\frac{\pi}{2}}\right) &= \ds \intop_0^{\sqrt{\frac{\pi}{2}}}{\sin{\lambda^2}} \ d\lambda \end {array}\right.$$
+	
+	This result can be scaled up or down, depending on how we want to draw the clothoid. At this point, the type of curve changes from a clothoid to a horizontal spiral. When programming, we are going to gain precision by simply shifting the result that we obtain from the twist.
+	
+	The definition of clothoid also states that the radius of curvature ($R$) is inversely proportional to the arc length ($\theta$) with respect to a constant of curvature. Then, the formula for the radius of curvature at the point of horizontal inflection is:
+	
+	$$R = \frac{c^2}{\theta} = \frac{c^2}{\ds \sqrt{\frac{\pi}{2}}} = c^2 \cdot \sqrt{\frac{2}{\pi}}$$
+	
+	The middle section of the corkscrew consists of a series of perfectly circular loops that advance in the horizontal direction. Much like he in-line twist, these can be described using three coordinates, but now we can't choose the coordinate $(0, 0, 0)$ as a starting point. We solve this by shifting the whole function by a known constant value. As we considered for the clothoid to be completely vertical, we know that $\theta = 0$ (we know this because the twist sections starts from the sides and goes upwards). We have just calculated the starting point for the other two values, so now we would have to make sure that $\vec{r}(\theta_0) = P_1$.
+	
+	This middle section can be defined using the equation for the in-line twist:
+	
+	$$\vec{r}(\theta) = \left\{\begin{array}{l}
+		x(\theta) = R \cdot \cos(\theta) \cr
+		y(\theta) = k \cdot \theta \cr
+		z(\theta) = R \cdot \sin(\theta)
+	\end{array}\right.$$
+	
+	As all energy is conserved, the number of loops is irrelevant, as the vehicle will travel through them at the same intervals and speed (thus conserving the mechanical energy). Therefore, I will only consider one and a half rotations through the loop and I'm going to calculate where that point is.
+	
+	The angle at which the inline twist ends can be calculated, as we know that it depends on the number of rotations we want to complete, but it always has to be in the shape of: $\theta = n \cdot 2\pi + \pi$, where $n \in \Bbb{N}$ is the number of rotations. The half rotation at the end is to ensure that the vehicle starts towards the correct direction. If we substitute this in our equation fo the in-line twist, we can obtain the final position of this section, which we'll consider to be the initial position for the last section of the corkscrew.
+	
+	Finally, we would need another clothoid going downwards to complete the corkscrew. This last clothoid reduces its curvature until the vehicle is flat again. To do this, we are going to need to inverse Euler's method. Instead of adding the corresponding slope each time, we are going to subtract it, as the second derivative depends only on the position.
+	
+	We know that the vertex for this last clothoid is symmetrical to the beginning of the corkscrew with respect to the center of the twist, which is also equal to the position at which the first two sections of the corkscrew connect minus the radius of curvature. This is also the point at which the object crosses the horizontal plane again.
+	
+	To add the inclination in this last clothoid, we are going to use a separate method: we can use the same formula used in the first section, but storing the frames in the inverse order. To do this, we need a way to know how long we have to calculate this for. We can do this easily by storing the number of frames in another variable and using this as a countdown.
+	
+	\subsubsection{Resulting forces}
+	The resulting forces depend on the position of the wagon at a certain moment in time. As the vehicle is constantly in a circular motion (with changing radius), most of the forces that end up on the rider are constantly changing direction.
+	
+	At the beginning of the corkscrew, while the object is still flat on the ground, the normal force gets canceled out with the gravitational force. Then, as the object starts the curvature, the centripetal force appears as the sum of all unbalanced forces that make the change in direction happen. The gravitational force is always pulling the object down, while the normal force is pointing inwards, allowing for the object to change direction.
+	
+	\subsubsection{Animation}
+	
+	\LinkToAnimation{Corkscrew}{corkscrew}
+	
+	\cleardoublepage
+	
+	\section{Animations}
+	The purpose of finding the formulas was to be able to create an animation of each of the roller coaster elements by building a simulation that numerically solves the differential equation. The complete animation, with all the elements included, can be found under the following link:
+	
+	{\centering \href{\link{fullvideo}}{\textbf{\link{fullvideo}}}\par}
+	
+	
+	Following the formulas, these animations have been programmed to accurately respect speed and acceleration, even if it means that the object may slightly shift away from its path. In these cases, the shift is gradual, increasing linearly over time. This is mainly due to the expected loss of accuracy of the discretized form of the equations, as they are calculated in small increments. Animations get more accurate the smaller the increments are, but a balance between accuracy and the time needed to generate and render the figures is also important.
+	
+	All the animations have been made using Blender 3D, version 2.90, which can be found here: \href{https://www.blender.org/}{https://www.blender.org/}
+	
+	Blender is an open-source app designed to create 3D figures and animations, but it can also be used to manipulate images and videos or even program games. Although the graphical user interface is probably its main strength, I have instead opted for creating the animations with Python, which is integrated in Blender, as using this programming language allows to precisely repeat the render as many times as needed.
+	
+	To be able to input the formulas into Blender, instead of manually programming each frame of the animation I have used the Python API console, which is already integrated into Blender and allows to code a scene using the Python language. The main library used to program Blender using Python is the \pyth|bpy| package, which is specific to Blender and contains a lot of custom commands that can't be used in Python anywhere else. I have also used the standard Python \pyth|math| library to be able to input more complex formulas such as the trigonometric or hyperbolic ones.
+	
+	The process of coding the animation is divided into two phases: initializing the editor and objects and coding the actual movement and effects. I must say that surprisingly the first part of the process is noticeably longer than the second part.
+	
+	In the first section of the code, the meshes (which are the representation of an objects with physical properties using a set of finite elements) are generated and the colors and shadings are set. Most of these lines start with the \pyth|bpy| command, from the package of the same name, as these settings are specific to the blender engine and cannot be found on the standard \pyth|Python| libraries. This package has pre-programed structures to be able to manipulate the objects, materials, animations, and effects easily. However, the code is only replicating what a person would do in the user interface, so it still has limitations when manipulating several objects. Therefore, at the beginning of the code, I have added two commands that delete every object in the scene, so I can add the correct ones again with the properties, position, and effects I want them to have.
+	
+	The second section of the code expresses the actual formulas and sets the way that the objects must move and behave. Using a \pyth|for|-loop, each frame of the animation is stored after having obtained the needed calculations. For some figures, this isn't precise enough, so the program does thousands of calculations at smaller incremental intervals which don't get stored into frames. Storing and animating all these calculations between frames would also increase the size of the video and the frames per second. It would be ideal to be able to perform the calculations at differential intervals, but that is physically impossible although I try to get close. This increase in the number of calculations largely affects the speed in which the program executes. Because of this, all formulas are calculated when the code is executed, not when the animation is rendered.
+	
+	Finally, the last part of the code resets the editor to its default values which may have been altered in the code execution, and also applying some additional changes in the settings, for example the number of frames per second is adjusted and the animation is reset to start at the first frame.
+	
+	To be able to use Euler's method, I define all variables twice, for $n$ and for $n + 1$ by naming them \pyth|x0| and \pyth|x1| respectively. Then, I define the step size $\Delta t$ using the variable \pyth|t| and setting it to a very small number. I also use this variable to convert from seconds to frames by using the frames per second (\pyth|fps|) and the number of steps in between frames (seen in the second \pyth|for|-loop and defined using the variable \pyth|j|). This is done by setting the step size as \pyth|t = 1/(fps * j)|.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.9\textwidth]{BlenderCapture.jpg}
+		\caption{Capture of Blender}
+		\label{fig:Blender Editor Capture}
+	\end{figure}
+	
+	\cleardoublepage
+	
+	\section{Data Collection from Real Roller Coasters}
+	To complement this research project, I wanted to add section closer to real roller coasters. Thus, I have collected data from different roller coasters around Europe. Three roller coasters have been chosen and their elements have been analyzed. For each roller coaster, a chart has been built from the recording of the acceleration measurements of the coaster, while riding it using the \verb|Arduino Science Journal| app. The recorded variables are:
+		\begin{itemize}
+			\item The acceleration in the $x$-axis
+			\item The acceleration in the $y$-axis
+			\item The acceleration in the $z$-axis
+			\item A compass (used for referencing between the $x$ and $y$ axis).
+		\end{itemize}
+	
+	The chart has been broken down in sections, each one of them corresponding to each of the elements of the coaster. The listing of the elements of the ride is shown after the chart, enumerating in the correct order which elements compose the coaster.
+	
+	Also, a link to the POV\footnote{A POV is short for \quote{Point of View}, and it is the video of a ride from the rider's perspective.} for each of the roller coaster included in this chapter has been added to the \hyperref[sec:Bibliography]{Bibliography}. This enables the reader to be able to view by himself the elements of each roller coaster, as the video travels along them. The elements of each of the roller coasters are enumerated in its corresponding section, so it should be easy to follow along.
+	
+	See \hyperref[sec:Appendix II]{Appendix II} for more information on some of the most important roller coasters in Europe, some of which are further explained here.
+	
+	Once the data is analyzed, the results are the different accelerations with respect to time. With this information, we can figure out the velocity, and consequently the position, at each moment (adding the initial conditions as the constants of integration). As we compare the data with the theory explained in the previous sections, we can see that the information is slightly off, and the values always tend to lower, as the force of friction must be included, and therefore, there is no conservation of energy. Despite this, the loss of energy due to friction is relatively small, so I'm not going to consider it when analyzing the data.
+	
+	By using Euler's method on the numerical data, we can figure out the velocity at each moment, and therefore the position. For this, we can identify in the chart when the coaster is in the station and set the velocity and position at that point as 0.
+
+	\newpage
+	
+	\subsection{Silver Star}
+	Here is a picture of the accelerations measured on a real coaster (Silver Star Hypercoaster in Europa-Park, Rust, Germany). This roller coaster consists of a series of camelbacks, ended by a small one-turn helix.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.3]{ArduinoScienceJournal/SilverStar.png}
+		\caption{Acceleration of the Silver Star (01.09.2022)}
+		\label{fig:Silver star acceleration}
+	\end{figure}
+
+	{\small\textbf{\textit{A}} Station \textbf{\textit{B}} Curve + Chain lift \textbf{\textit{C}} First drop \textbf{\textit{D}} Camelback 1 + Curve \textbf{\textit{E}} Camelback 2 \textbf{\textit{F}} Camelback 3 + 180º Curve \textbf{\textit{G}} Camelback 4 \textbf{\textit{H}} Camelback 5 + Security zone \textbf{\textit{I}} Curve + Small drop \textbf{\textit{J}} Camelback 6 \textbf{\textit{K}} Double curve + Deceleration zone \textbf{\textit{L}} Curve + Waiting zone \textbf{\textit{M}} Station}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=.4]{Fotos roller coasters/Silver Star.jpg}
+		\caption{Picture of the whole Silver Star}
+		\label{fig:Silver star}
+	\end{figure}
+
+	\newpage
+
+	\subsection{Python}
+	The following charts corresponds to the Python roller coaster in Efteling, Netherlands (do not confuse with the Python language which has been mentioned previously). This roller coaster has an initial lift hill, followed by two vertical loops and two corkscrews. At the end, right before getting to the station, there is a small helix.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.3]{ArduinoScienceJournal/Python.png}
+		\caption{Acceleration of the Python (24.08.2022)}
+		\label{fig:Python acceleration}
+	\end{figure}
+
+	{\small\textbf{\textit{A}} Station \textbf{\textit{B}} Chain lift \textbf{\textit{C}} Small drop + Curve \textbf{\textit{D}} Main drop \textbf{\textit{E}} Loop 1 \textbf{\textit{F}} Loop 2	\textbf{\textit{G}} Curve + Double corkscrew \textbf{\textit{H}} Helix \textbf{\textit{I}} Deceleration zone \textbf{\textit{J}} Station}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.5\textwidth]{Fotos roller coasters/Python Panoramic_small.jpg}
+		\caption{Picture of the Python}
+		\label{fig:Python}
+	\end{figure}
+
+	\newpage
+	
+	\subsection{Baron 1898}
+	The following charts are the capture of the acceleractions measured in the Baron 1898 roller coaster in Efteling, Netherlands. This is a small roller coaster, but at the same time it has several of the elements that have been analyzed in this report, including a loop, an in-line twist and a helix.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.3]{ArduinoScienceJournal/Baron 1898}
+		\caption{Acceleration of the Baron 1898 (24.08.2022)}
+		\label{fig:Baron acceleration}
+	\end{figure}
+
+	{\small\textbf{\textit{A}} Station	\textbf{\textit{B}} Chain lift + Stop \textbf{\textit{C}} Main drop \textbf{\textit{D}} Loop \textbf{\textit{E}} In-line Twist in a small camelback	\textbf{\textit{F}} Helix \textbf{\textit{G}} Small camelback	\textbf{\textit{H}} Curve\textbf{\textit{I}} Deceleration zone \textbf{\textit{J}} Station}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.5\textwidth]{Fotos roller coasters/Baron1898.jpg}
+		\caption{Picture of the Baron 1898}
+		\label{fig:Baron1898}
+	\end{figure}
+
+	\cleardoublepage
+	
+	\section{Conclusions}
+	This report shows the mathematical work needed to build the animations of the most common roller coaster elements.
+	
+	Even though a lot of simplifications and assumptions have been made, the mathematical formulas obtained are more complex than I had initially thought, considering that in the end they simply calculate what happens to an object along a known path given the total forces applied. I can't imagine the struggle that would be doing this same project but considering for example the force of friction and the wind drag. At several points in the making of this project I tried simplifying even further or making specific assumptions which made the problems look easier, but even that resulted sometimes in a challenge.
+	
+	Throughout the project, I have tried to find the elements that could most likely be solved in an analytical way, but all the formulas quickly turned into elaborate differential equations. However, I was able to solve all these equations by using a wide range of methods.
+	
+	At some points, I had to explore different paths to mathematically try and solve the differential equations, and I found it strange that each shape presented a specific and complex problem that some of the other shapes didn't have. To help me solve each problem, I used complementary tools like \verb|Geogebra| or \verb|WolframAlpha| to check the formulas visually.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{GeogebraCapture.jpg}
+		\caption{Capture of GeoGebra drawing different curves related to the clothoid}
+		\label{fig:GeoGebra Editor Capture}
+	\end{figure}
+	
+	Finally, to review specifically the elements that this report covers:
+	\begin{itemize}
+		\item \textbf{Curve}: The curve was an easy element as the forces got neglected with each other.
+		\item \textbf{Camelback (Parabola)}: The camelback was a first challenge as I had to learn how to solve differential equations by using Euler's method.
+		\item \textbf{Catenary}: This element was quite easy to solve, as it was similar to the parabola.
+		\item \textbf{Helix}: This was the first element I solved. Luckily, the differential equation ended up being the easiest one.
+		\item \textbf{In-line twist}: This element was surprisingly similar to the vertical loop, so I ended up solving it first.
+		\item \textbf{Vertical Loop}: When starting this element, I thought that having a parameter wouldn't complicate the resolution, but I was wrong. I ended up using a whole different approach than I had imagined to solve it.
+		\item \textbf{Corkscrew}: Once I had the animation for the in-line twist and the vertical loop, I just had to add them together. Finding the points of intersection and the curvature there wasn't difficult, as I already knew some conditions about those points.
+	\end{itemize}
+	
+	As I had already used Blender before, I was already familiar with the way it worked, but I hadn't experimented with the integrated Python console yet. Translating and finding each command was the hardest part about using python to reproduce certain animations.
+	
+	I didn't think that it would take me so much time to complete this project, but it has really broadened by vision towards mathematics and the different branches of it, especially in differential calculus. I have actually learned a lot about geometrical analysis and the way that derivatives and integrals are used and solved in a certain situation.
+	
+	Beyond the mathematical aspects, I have been able to use and apply new tools and knowledge that I am sure will help me in other areas of my career: using \LaTeX and TeXstudio to build the document, using Python for programming or storing the document versions and the project website in GitHub. I had already been using Blender before starting this project, but I had never used the Python interface which is something I also had to learn.
+	
+	In conclusion, this project has been a hard but pleasant journey to applying math to roller coasters. Journeys like mine have allowed engineers to improve the experience and safety of roller coasters. Thanks to math nowadays riders don’t faint or die! I hope my work to be a small contribution that may help others reach further in this amazing field.
+	
+	Overall, I'd like to end stating that I really have enjoyed working on this project.
+	
+	\cleardoublepage
+	
+	\section{Bibliography and References}
+		\label{sec:Bibliography}
+		\nocite{*}
+		\defbibfilter{bookorarticle}{%
+			\type{book} \or \type{article}
+		}
+		\printbibliography[filter=bookorarticle, title= {Books and Articles}]
+		\printbibliography[type = {reference}, title = {Math Forums}]
+		\printbibliography[type = {report}, title = {Math Forums Questions}]
+		\printbibliography[type = {misc}, title = {Videos}]
+		\printbibliography[type = {online}, title = {Internet References}]
+	
+	\cleardoublepage
+	
+	\section{Appendix I - How this document was made}
+		\label{sec:Appendix I}
+		This document has been formatted with \LaTeX using TeXstudio, including all formulas and charts. The \LaTeX format is considered the "standard" for any math-related document. Much like Python, \LaTeX uses libraries to add different specific functionalities, such as adding graphs or changing the text style.
+		
+		One of the most useful packages has been the \pyth|Pythonhighlight| package. This package has been used to show the Python syntax using text that resembles code. The code shown in the \hyperref[sec:Appendix III]{Appendix III} was imported directly from the file generated by blender using the \verb|\inputpyhon| command.
+		
+		Another useful library was used to insert charts and images. The charts were displayed using two libraries: \pyth|pgfplots| (mainly) and \pyth|pstricks| (for more complex formulas like the Vertical Loop).
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.2]{EditorCapture.jpg}
+			\caption{Capture of the editor used}
+			\label{fig:LaTeX Editor Capture}
+		\end{figure}
+	
+		As I said earlier, this document can also be accessed online at the following address: \href{https://mathinrollercoasters.com/}{mathinrollercoasters.com}. This website is made using GitHub pages, and the corresponding \LaTeX source code can also be found in the same repository, along with the Python source code.
+	
+	\cleardoublepage
+	
+	\section{Appendix II - Roller Coasters I Rode while Making this Research Project}
+	\label{sec:Appendix II}
+	Here is the main information on some of the most important roller coasters in Europe. These tables include the name of the roller coaster, the manufacturer, the model (as described by the manufacturer), the scale (which indicates the level), the year of opening and the number of times I've ridden it since the beginning of the project.
+	
+	The main manufacturers are the following (Arrow Dynamics and Custom Coasters International are now defunct, and have mainly been bought by S\&S):
+	\begin{table}[H]
+		\centering
+		\caption{Manufacturers}
+		\resizebox{\columnwidth}{!}{%
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\textbf{Name} & \textbf{Abbreviation} & \textbf{Country} & \textbf{Web-page} \\ \hline
+			Arrow Dynamics & Arrow & United States & \href{https://www.s-s.com/}{https://www.s-s.com/} \\ \hline
+			Mack Rides & Mack Rides & Germany & \href{https://mack-rides.com/}{https://mack-rides.com/} \\ \hline
+			Vekoma & Vekoma & Netherlands & \href{https://www.vekoma.com/}{https://www.vekoma.com/} \\ \hline
+			Great Coasters International & GCI & United States & \href{https://greatcoasters.com/}{https://greatcoasters.com/} \\ \hline
+			Custom Coasters International & CCI & United States & \href{https://www.s-s.com/}{https://www.s-s.com/} \\ \hline
+			Bolliger \& Mabillard & B\&M & Switzerland & \href{https://www.bolliger-mabillard.com/}{https://www.bolliger-mabillard.com/} \\ \hline
+			Sansei Technologies & S\&S & United States & \href{https://www.s-s.com/}{https://www.s-s.com/} \\ \hline
+			KumbaK & KumbaK & Netherlands & \href{https://www.kumbak.nl/}{https://www.kumbak.nl/} \\ \hline
+			ART Engineering GmbH & ART & Germany & \href{https://artengineering.de/}{https://artengineering.de/} \\ \hline
+			Intamin Amusement Rides & Intamin & Switzerland & \href{https://www.intamin.com/}{https://www.intamin.com/} \\ \hline
+			Zamperla & Zamperla & Italy & \href{https://www.zamperla.com/}{https://www.zamperla.com/} \\ \hline
+		\end{tabular}
+		}
+	\end{table}
+	
+	\subsection*{Roller Coasters}
+	\begin{table}[H]
+		\centering
+		\caption{Efteling Roller Coasters}
+		\resizebox{\columnwidth}{!}{%
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			\textbf{Name} & \textbf{Manufacturer} & \textbf{Model} & \textbf{Scale} & \textbf{Opened} & \textbf{\#} \\ \hline
+			\href{https://rcdb.com/12083.htm}{Baron 1898} & B\&M & Floorless & Extreme & 2015 & 2 \\ \hline
+			\href{https://rcdb.com/4526.htm}{Joris en de Draak} & GCI & Wood Twin & Thrill & 2010 & 1 \\ \hline
+			\href{https://rcdb.com/16697.htm}{Max + Moritz} & Mack Rides & Twin & Family & 2020 & 2 \\ \hline
+			\href{https://rcdb.com/897.htm}{Python} & Vekoma & Sit Down & Extreme & 1981 & 2 \\ \hline
+			\href{https://rcdb.com/3291.htm}{Vliegende Hollander} & KumbaK & Dark Ride & Thrill & 2007 & 1 \\ \hline
+			\href{https://rcdb.com/900.htm}{Vogel Rok} & Vekoma & Enclosed & Thrill & 1998 & 1 \\ \hline
+		\end{tabular}
+		}
+	\end{table}
+	
+	\begin{table}[H]
+		\centering
+		\caption{Europa Park Roller Coasters}
+		\resizebox{\columnwidth}{!}{
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			\textbf{Name} & \textbf{Manufacturer} & \textbf{Model} & \textbf{Scale} & \textbf{Opened} & \textbf{\#} \\ \hline
+			\href{https://rcdb.com/975.htm}{Alpenexpress Enzian} & Mack Rides & Grottenblitz & Family & 1984 & 1 \\ \hline
+			\href{https://rcdb.com/11114.htm}{Arthur} & Mack Rides & Inverted & Family & 2014 & 1 \\ \hline
+			\href{https://rcdb.com/2928.htm}{Atlantica SuperSplash} & Mack Rides & Water Coaster & Thrill & 2005 & 1 \\ \hline
+			\href{https://rcdb.com/13654.htm}{Ba-a-a-Express} & ART & Oval & Kiddie & 2016 & 1 \\ \hline
+			\href{https://rcdb.com/4074.htm}{Blue Fire Megacoaster} & Mack Rides & Launch Coaster & Extreme & 2009 & 1 \\ \hline
+			\href{https://rcdb.com/972.htm}{Euro Mir} & Mack Rides & Spinning Coaster & Thrill & 1997 & 2 \\ \hline
+			\href{https://rcdb.com/973.htm}{Eurosat - CanCan Coaster} & Mack Rides & Enclosed Coaster & Thrill & 1989 & 3 \\ \hline
+			\href{https://rcdb.com/971.htm}{Matterhorn Blitz} & Mack Rides & Wild Mouse & Thrill & 1999 & 3 \\ \hline
+			\href{https://rcdb.com/3403.htm}{Pegasus} & Mack Rides & Youngstar Coaster & Family & 2006 & 2 \\ \hline
+			\href{https://rcdb.com/1891.htm}{Poseidon} & Mack Rides & Water Coaster & Thrill & 2000 & 2 \\ \hline
+			\href{https://rcdb.com/974.htm}{Schweizer Bobbahn} & Mack Rides & Bobsled & Thrill & 1985 & 4 \\ \hline
+			\href{https://rcdb.com/1414.htm}{Silver Star} & B\&M & Hypercoaster & Extreme & 2002 & 5 \\ \hline
+			\href{https://rcdb.com/10018.htm}{Wodan Timbur Coaster} & GCI & Wood & Extreme & 2012 & 1 \\ \hline
+		\end{tabular}
+		}
+	\end{table}
+	
+	\begin{table}[H]
+		\centering
+		\caption{Phantasialand Roller Coasters}
+		\resizebox{\columnwidth}{!}{
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			\textbf{Name} & \textbf{Manufacturer} & \textbf{Model} & \textbf{Scale} & \textbf{Opened} & \textbf{\#} \\ \hline
+			\href{https://rcdb.com/3117.htm}{Black Mamba} & B\&M & Inverted & Extreme & 2006 & 1 \\ \hline
+			\href{https://rcdb.com/978.htm}{Colorado Adventure} & Vekoma & Mine Train & Thrill & 1996 & 1 \\ \hline
+			\href{https://rcdb.com/980.htm}{Crazy Bats} & Vekoma & Enclosed & Thrill & 1988 & 1 \\ \hline
+			\href{https://rcdb.com/15201.htm}{F.L.Y.} & Vekoma & Flying & Extreme & 2020 & 2 \\ \hline
+			\href{https://rcdb.com/13689.htm}{Raik} & Vekoma & Boomerang & Family & 2016 & 1 \\ \hline
+			\href{https://rcdb.com/12723.htm}{Taron} & Intamin & Launch Coaster & Extreme & 2016 & 1 \\ \hline
+		\end{tabular}
+		}
+	\end{table}
+	
+	\begin{table}[H]
+		\centering
+		\caption{PortAventura Park Roller Coasters}
+		\resizebox{\columnwidth}{!}{
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			\textbf{Name} & \textbf{Manufacturer} & \textbf{Model} & \textbf{Scale} & \textbf{Opened} & \textbf{\#} \\ \hline
+			\href{https://rcdb.com/762.htm}{Tren de la Mina} & Arrow & Mine Train & Thrill & 1995 & 1 \\ \hline
+			\href{https://rcdb.com/760.htm}{Dragon Khan} & B\&M & Sitting Coaster & Extreme & 1995 & 1 \\ \hline
+			\href{https://rcdb.com/3430.htm}{Furius Baco} & Intamin & Wing Launch Coaster & Extreme & 2007 & 1 \\ \hline
+			\href{https://rcdb.com/10239.htm}{Shambala} & B\&M & Hypercoaster & Extreme & 2012 & 1 \\ \hline
+			\href{https://rcdb.com/759.htm}{Stampida} & CCI & Wood - Twin & Thrill & 1997 & 1 \\ \hline
+			\href{https://rcdb.com/763.htm}{Tami-Tami} & Vekoma & Junior Coaster & Family & 1998 & 1 \\ \hline
+			\href{https://rcdb.com/761.htm}{Tomahawk} & CCI & Wood & Family & 1997 & 1 \\ \hline
+		\end{tabular}
+		}
+	\end{table}
+
+	\begin{table}[H]
+		\centering
+		\caption{Tibidabo Roller Coasters}
+		\resizebox{\columnwidth}{!}{
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			\textbf{Name} & \textbf{Manufacturer} & \textbf{Model} & \textbf{Scale} & \textbf{Opened} & \textbf{\#} \\ \hline
+			\href{https://rcdb.com/3596.htm}{Muntanya Russa} & Vekoma & Terrain Custom & Thrill & 2008 & 1 \\ \hline
+			\href{https://rcdb.com/1831.htm}{Tibidabo Express} & Zamperla & Powered Coaster & Family & 1990 & 1 \\ \hline
+		\end{tabular}
+		}
+	\end{table}
+
+	\cleardoublepage
+	
+	\section{Appendix III - Blender source code}
+	\label{sec:Appendix III}
+	Here is the code used to generate the animations. This code can also be accessed through GitHub on the same repository as the web-page:
+	
+	\href{https://github.com/arnaudelrio}{https://github.com/arnaudelrio}
+	
+	The code for the Blender files is as follows (written in Python):
+	
+	\subsection{Curve Animation}
+	\label{sec:Appendix III_Curve}
+	\inputpython{PythonScripts/CurveScript.py}{1}{10000}
+	
+	\newpage
+	
+	\subsection{Camelback Animation}
+	\label{sec:Appendix III_Parabola}
+	\inputpython{PythonScripts/ParabolaScript.py}{1}{10000}
+	
+	\newpage
+	
+	\subsection{Catenary Animation}
+	\label{sec:Appendix III_Catenary}
+	\inputpython{PythonScripts/CatenaryScript.py}{1}{10000}
+	
+	\newpage
+	
+	\subsection{Helix Animation}
+	\label{sec:Appendix III_Helix}
+	\inputpython{PythonScripts/HelixScript.py}{1}{10000}
+	
+	\newpage
+	
+	\subsection{In-line Twist Animation}
+	\label{sec:Appendix III_In-line Twist}
+	\inputpython{PythonScripts/InlineTwistScript.py}{1}{10000}
+
+	\newpage
+
+	\subsection{Vertical Loop Animation}
+	\label{sec:Appendix III_Vertical Loop}
+	\inputpython{PythonScripts/VerticalLoopScript.py}{1}{10000}
+	
+	\newpage
+	
+	\subsection{Corkscrew Animation}
+	\label{sec:Appendix III_Corkscrew}
+	\inputpython{PythonScripts/CorkscrewScript.py}{1}{10000}
+\end{document}
